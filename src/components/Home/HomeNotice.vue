@@ -1,17 +1,17 @@
 <template>
   <div>
-    <span class="title">뉴스</span>
+    <span class="title">공지사항</span>
     <button
-      class="addBtn news-add-btn"
+      class="addBtn notice-add-btn"
       type="button"
-      @click="gotoNewsList()"
+      @click="gotoNoticeList()"
     >
       더보기
     </button>
     <hr>
-    <div v-for="(news, index) in newsList"
-          :key="index" class="news-link">
-        <a href="#"><span class="ntc-news-title">{{news.title}}</span></a>
+    <div v-for="(notice, index) in noticeList"
+          :key="index" class="notice-link">
+        <a href="#"><span class="ntc-notice-title">{{notice.title}}</span></a>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
     data() {
         return {
             loading: true,
-            newsList:[],
+            noticeList:[],
         }
     },
     created() {
@@ -32,18 +32,18 @@ export default {
     methods: {
         getHomeNews() {
             axios
-            .get('http://localhost/happyhouse/news/main')
+            .get('http://localhost/happyhouse/notices/main')
             .then(response=> {
                 this.loading = false,
-                this.newsList = response.data
+                this.noticeList = response.data
             })
             .catch(error=> {
                 alert('요청에 실패했습니다.')
                 console.log(error)
             })
         },
-        gotoNewsList() {
-            router.push({name : 'News'})
+        gotoNoticeList() {
+            router.push({name : 'Notice'})
         }
     },
     
@@ -54,27 +54,32 @@ export default {
 	font-weight: bold;
 }
 
+.notice {
+	padding:15px;
+	width:350px;
+}
+
 .addBtn {
 	background-color: white;
 	border: 1px solid #c9c9c9;
 	font-size: 12px;
 }
-.news-add-btn {
-	margin-left:70%;
+.notice-add-btn {
+	margin-left:60%;
 }
 
-.news-link {
+.notice-link {
 	font-size:13px;
     /*font-weight: bold;*/
 	margin-bottom: 12px;
 	margin-left : 0px;
 }
 
-.news-link a{
+.notice-link a{
 	color: black;
 }
 
-.ntc-news-title{
+.ntc-notice-title{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: block;
