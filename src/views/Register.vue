@@ -1,7 +1,7 @@
 <template>
   <div class="register-form">
     <div class="register-box">
-      <h2>Register</h2>
+      <h2>회원가입</h2>
       <p class="hint-text">간단한 정보만으로도 회원가입을 할 수 있습니다.</p>
       <div class="form-group">
         <input
@@ -51,6 +51,7 @@
           placeholder="전화번호"
           required="required"
           v-model="phone"
+          @keyup="autoHypenPhone(phone)"
         />
       </div>
       <div class="form-group">
@@ -59,8 +60,19 @@
           class="form-control"
           name="address"
           placeholder="주소"
-          required="required"
           v-model="address"
+          readonly="readonly"
+          @click="setAddress()"
+        />
+      </div>
+      <div class="form-group">
+        <input
+          type="text"
+          class="form-control"
+          name="detailAddress"
+          placeholder="상세주소 입력"
+          required="required"
+          v-model="detailAddress"
         />
       </div>
       <div class="form-group">
@@ -86,6 +98,7 @@
   </div>
 </template>
 
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 import axios from 'axios';
 import router from '../router/router';
@@ -98,6 +111,7 @@ export default {
       name: '',
       address: '',
       phone: '',
+      detailAddress: '',
     };
   },
   methods: {
@@ -107,17 +121,52 @@ export default {
           email: this.email,
           password: this.password,
           name: this.name,
-          address: this.address,
+          address: this.address + ' ' + this.detailAddress,
           phone: this.phone,
         })
         .then(() => {
-          alert('회원가입에 성공했습니다');  
+          alert('회원가입에 성공했습니다');
           router.push({ name: 'Home' });
         })
         .catch((err) => {
           alert('회원가입에 실패했습니다');
           console.log(err);
         });
+    },
+    setAddress() {
+      var obj = this;
+
+      new daum.Postcode({
+        oncomplete(data) {
+          console.log('(' + data.zonecode + ') ' + data.address);
+          // this.address = "("+ data.zonecode + ") "+data.address
+          obj.address = data.address;
+        },
+      }).open();
+    },
+    autoHypenPhone(val) {
+      var phoneNumber = val.replace(/[^0-9]/g, '');
+      var res = '';
+      if (phoneNumber.length < 4) {
+        return phoneNumber;
+      } else if (phoneNumber.length < 7) {
+        res += phoneNumber.substr(0, 3);
+        res += '-';
+        res += phoneNumber.substr(3);
+      } else if (phoneNumber.length < 11) {
+        res += phoneNumber.substr(0, 3);
+        res += '-';
+        res += phoneNumber.substr(3, 3);
+        res += '-';
+        res += phoneNumber.substr(6);
+      } else {
+        res += phoneNumber.substr(0, 3);
+        res += '-';
+        res += phoneNumber.substr(3, 4);
+        res += '-';
+        res += phoneNumber.substr(7);
+      }
+      this.phone = res;
     },
   },
 };
