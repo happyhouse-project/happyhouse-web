@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import News from '@/views/News.vue'
+import Apt from '@/views/Apt.vue'
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: '/news',
     name: 'news',
     component: News,
+  },
+  {
+    path: '/apt',
+    name: 'apt',
+    component: Apt,
   },
 ];
 
