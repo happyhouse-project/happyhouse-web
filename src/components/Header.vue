@@ -22,7 +22,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item><router-link to="/Apt">아파트</router-link></b-nav-item>
+          <b-nav-item href="/Apt">아파트</b-nav-item>
           <b-nav-item href="#">연립다세대 주택</b-nav-item>
         </b-navbar-nav>
       </b-collapse>

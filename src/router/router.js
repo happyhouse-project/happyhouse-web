@@ -18,8 +18,8 @@ const routes = [
     component: News,
   },
   {
-    path: '/apt',
-    name: 'apt',
+    path: '/Apt',
+    name: 'Apt',
     component: Apt,
   },
 ];
