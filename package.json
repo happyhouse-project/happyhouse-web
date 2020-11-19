@@ -13,6 +13,7 @@
     "bootstrap-vue": "^2.19.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.12",
+    "vue-daum-map": "^1.0.15",
     "vue-router": "^3.4.9",
     "vuex": "^3.5.1"
   },
@@ -38,7 +39,12 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "no-unused-vars" : ["error", {"varsIgnorePattern" : "^map"}]
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "^map"
+        }
+      ]
     }
   },
   "browserslist": [
