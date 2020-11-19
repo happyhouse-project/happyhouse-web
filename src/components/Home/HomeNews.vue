@@ -8,11 +8,14 @@
     >
       더보기
     </button>
-    <hr />
+    <hr>
+    <div class="news-link">
+        <a href="#"><span class="ntc-news-title">{{news.title}}</span></a>
+    </div>
   </div>
 </template>
 <script>
-import axios from '../../axios-common'
+import axios from 'axios'
 import router from '../../router/router'
 
 export default {
@@ -26,7 +29,7 @@ export default {
         }
     },
     created() {
-        this.getHomeNews
+        this.getHomeNews()
     },
     methods: {
         getHomeNews() {
@@ -34,6 +37,7 @@ export default {
             .get('http://localhost/news/main')
             .then(response=> {
                 this.loading = false,
+                console.log(response.data);
                 this.news = response.data
             })
             .catch(error=> {
@@ -42,13 +46,17 @@ export default {
             })
         },
         gotoNewsList() {
-            router.push({name : 'news'})
+            router.push({name : 'News'})
         }
     },
     
 };
 </script>
 <style scoped>
+.title {
+	font-weight: bold;
+}
+
 .addBtn {
 	background-color: white;
 	border: 1px solid #c9c9c9;
@@ -56,5 +64,18 @@ export default {
 }
 .news-add-btn {
 	margin-left:70%;
+}
+
+.news-link {
+	font-size:12px;
+	margin-bottom: 12px;
+	margin-left : 0px;
+}
+
+.ntc-news-title{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: block;
+	white-space: nowrap;
 }
 </style>

@@ -13,7 +13,7 @@ const routes = [
   },
   {
     path: '/news',
-    name: 'news',
+    name: 'News',
     component: News,
   },
 ];
