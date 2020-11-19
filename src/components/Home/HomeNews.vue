@@ -11,7 +11,7 @@
     <hr>
     <div v-for="(news, index) in newsList"
           :key="index" class="news-link">
-        <a href="#"><span class="ntc-news-title">{{news.title}}</span></a>
+        <a :href="news.link" target="_blank"><span class="ntc-news-title">{{news.title}}</span></a>
     </div>
   </div>
 </template>

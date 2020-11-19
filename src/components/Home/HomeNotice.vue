@@ -10,8 +10,7 @@
     </button>
     <hr>
     <div v-for="(notice, index) in noticeList"
-          :key="index" class="notice-link">
-        <a href="#"><span class="ntc-notice-title">{{notice.title}}</span></a>
+          :key="index" class="notice-link"><span class="ntc-notice-title" @click="gotoNotice()">{{notice.title}}</span>
     </div>
   </div>
 </template>
@@ -64,6 +63,7 @@ export default {
 	border: 1px solid #c9c9c9;
 	font-size: 12px;
 }
+
 .notice-add-btn {
 	margin-left:60%;
 }
@@ -84,5 +84,6 @@ export default {
 	text-overflow: ellipsis;
 	display: block;
 	white-space: nowrap;
+    cursor: pointer;
 }
 </style>
