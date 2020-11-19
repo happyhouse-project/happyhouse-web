@@ -1,5 +1,5 @@
 <template>
-  <div class="news-main">
+  <div class="main">
     <div class="infolist">
       <h3>뉴스</h3>
       <hr class="hr-main" />
@@ -108,8 +108,8 @@ export default {
 .main {
   background-color: white;
   min-height: 1800px;
-  padding-left: 15%;
-  padding-right: 15%;
+  padding-left:15%;
+  padding-right:15%;
 }
 
 .content {

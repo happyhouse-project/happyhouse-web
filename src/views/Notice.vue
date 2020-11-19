@@ -4,7 +4,7 @@
         <h3>공지사항</h3>
         <button class="addBtn btn-right btn-bottom" type="button" @click="gotoNoticeRegister">공지 추가하기</button>
         <hr class="hr-main">
-        <div v-for="(notice, index) in noticeList" :key="index">
+        <div class="notice" v-for="(notice, index) in noticeList" :key="index">
             <p @click="gotoNoticeDetail(notice.id)">{{notice.title}}</p><hr>
         </div>
     </div>
@@ -95,5 +95,9 @@ input[type='checkbox'] {
 
 .btn-bottom {
     margin-bottom: 1%;
+}
+
+.notice {
+    cursor: pointer;
 }
 </style>

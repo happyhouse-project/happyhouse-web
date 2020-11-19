@@ -97,5 +97,7 @@ export default {
 .main {
   background-color: white;
   min-height: 1800px;
+  padding-left:15%;
+  padding-right:15%;
 }
 </style>
