@@ -7,6 +7,8 @@ import Apt from '@/views/Apt.vue'
 import Notice from '@/views/Notice.vue'
 import NoticeDetail from '@/views/NoticeDetail.vue'
 import NoticeRegister from '@/views/NoticeRegister.vue'
+import Login from '@/views/Login.vue'
+import Register from '@/views/Register.vue'
 
 Vue.use(VueRouter);
 
@@ -45,6 +47,16 @@ const routes = [
     path: '/noticeRegister',
     name: 'NoticeRegister',
     component: NoticeRegister,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
   },
 ];
 
