@@ -1,6 +1,6 @@
 <template>
   <div class="register-form">
-    <div class="register-box">
+    <form @submit.prevent="handleSubmit">
       <h2>회원가입</h2>
       <p class="hint-text">간단한 정보만으로도 회원가입을 할 수 있습니다.</p>
       <div class="form-group">
@@ -38,10 +38,12 @@
         <input
           type="password"
           class="form-control"
-          name="confirm_password"
+          name="confirmPassword"
+          v-model="confirmPassword"
           placeholder="비밀번호 재입력"
           required="required"
         />
+        <p class="error-msg" v-if="password != confirmPassword">비밀번호가 일치하지 않습니다</p>
       </div>
       <div class="form-group">
         <input
@@ -77,21 +79,22 @@
       </div>
       <div class="form-group">
         <label class="form-check-label"
-          ><input type="checkbox" required="required" /> 회원가입 시
-          <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a> 를
-          동의합니다
+          ><input
+            type="checkbox"
+            required="required"
+            v-model="toggle"
+            true-value="yes"
+            false-value="no"
+          />회원가입 시 <a href="#">Terms of Use</a> &amp;
+          <a href="#">Privacy Policy</a> 를 동의합니다
         </label>
       </div>
       <div class="form-group">
-        <button
-          type="button"
-          class="btn btn-success btn-lg btn-block"
-          @click="doRegister"
-        >
+        <button type="submit" class="btn btn-success btn-lg btn-block">
           회원 가입
         </button>
       </div>
-    </div>
+    </form>
     <div class="text-center">
       이미 계정이 있다면 <a href="./login">로그인</a>
     </div>
@@ -108,14 +111,21 @@ export default {
     return {
       email: '',
       password: '',
+      confirmPassword: '',
       name: '',
       address: '',
       phone: '',
       detailAddress: '',
+      toggle: false,
     };
   },
   methods: {
     doRegister() {
+      if (this.toggle === 'no') {
+        alert('이용약관에 동의해주세요.');
+        return;
+      }
+
       axios
         .post('http://localhost/happyhouse/members', {
           email: this.email,
@@ -143,6 +153,15 @@ export default {
           obj.address = data.address;
         },
       }).open();
+    },
+    handleSubmit(e) {
+        this.submitted = true;
+        // stop here if form is invalid
+        this.$v.$touch();
+        if (this.$v.$invalid) {
+            return;
+        }
+        this.doRegister(); 
     },
     autoHypenPhone(val) {
       var phoneNumber = val.replace(/[^0-9]/g, '');
@@ -218,7 +237,7 @@ export default {
   margin-bottom: 30px;
   text-align: center;
 }
-.register-box {
+.register-form form {
   color: #999;
   border-radius: 3px;
   margin-bottom: 15px;
@@ -257,5 +276,10 @@ export default {
 }
 .register-form form a:hover {
   text-decoration: underline;
+}
+.error-msg{
+  color: red;
+  font-size:12px;
+  margin: 1%;
 }
 </style>
