@@ -29,6 +29,7 @@ export default {
   },
    created() {
         this.getNews()
+        this.scrollTop()
     },
     methods: {
         getNews() {
@@ -45,6 +46,9 @@ export default {
         },
         gotoAddNews() {
             router.push({name : 'NewsInfo'})
+        },
+        scrollTop() {
+          window.scrollTo(0, top)
         }
     },
 };
@@ -72,8 +76,6 @@ h3 {
   text-align: center;
   font-weight: bold;
 }
-
-
 
 hr {
   margin: 5px;

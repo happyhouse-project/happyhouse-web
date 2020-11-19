@@ -5,6 +5,8 @@ import News from '@/views/News.vue'
 import NewsInfo from '@/views/NewsInfo.vue'
 import Apt from '@/views/Apt.vue'
 import Notice from '@/views/Notice.vue'
+import NoticeDetail from '@/views/NoticeDetail.vue'
+import NoticeRegister from '@/views/NoticeRegister.vue'
 
 Vue.use(VueRouter);
 
@@ -33,7 +35,17 @@ const routes = [
     path: '/notice',
     name: 'Notice',
     component: Notice,
-  }
+  },
+  {
+    path: '/noticeDetail/:id',
+    name: 'NoticeDetail',
+    component: NoticeDetail,
+  },
+  {
+    path: '/noticeRegister',
+    name: 'NoticeRegister',
+    component: NoticeRegister,
+  },
 ];
 
 const router = new VueRouter({
@@ -42,4 +54,10 @@ const router = new VueRouter({
   routes,
 });
 
+// const router = new VueRouter({
+//   routes: routes,
+//   scrollBehavior (to, from, savedPosition) {
+//     return { x: 0, y: 0 }
+//   }
+// })
 export default router;
