@@ -39,20 +39,20 @@ export default new Vuex.Store({
     // 로그인 시도
     doLogin({ dispatch }, loginObj) {
       // 전체 유저에서 해당 이메일로 유저를 찾는다.
-      axios.post("http://localhost/login", loginObj)
+      axios.post("http://localhost/happyhouse/login", loginObj)
         .then(res => {
           alert("로그인에 성공했습니다.")
           // alert(res.data.accessToken)
-          // 성공 시 토큰을 헤더에 포함시켜서 유저정보 요청          
+          // 성공 시 토큰을 헤더에 포함시켜서 유저정보 요청
           localStorage.setItem("accessToken", res.data.accessToken)
-          dispatch("getMemberInfo", true)          
+          dispatch("getMemberInfo", true)
         })
         .catch(err => { // error code별 로직 세분화
 
           // 401 -> 인증되지 않은 경우
           if(err.response.status === 401) {
             alert('인증되지 않은 이메일입니다.')
-            router.push({ name: "home" })
+            router.push({ name: "Home" })
           }
 
           if(err.response.status === 404) {
@@ -65,7 +65,8 @@ export default new Vuex.Store({
     doLogout({ commit }) {
       commit("logout")
       alert("정상적으로 로그아웃 되었습니다.")
-      router.push({ name: "home" })
+      if(this.$route.path != "/")
+      router.push({ name: "Home" })
     },
 
     // 유저정보 요청
@@ -82,21 +83,18 @@ export default new Vuex.Store({
         };
 
         axios
-          .post("http://localhost/loginUser", bodyParameters, config)
-          .then(response => {            
+          .post("http://localhost/happyhouse/loginUser", bodyParameters, config)
+          .then(response => {
               let userInfo = {
                 id: response.data.id,
                 name: response.data.name,
                 email: response.data.email,
                 phone: response.data.phone,
-                address: response.data.address,
-                detailAddress: response.data.detailAddress,
-                zonecode: response.data.zonecode,
-                point: response.data.point,
+                address: response.data.address
               }
               commit("loginSuccess", userInfo)
               if(isFirst === true) {
-                  router.push({ name: "home" })
+                  router.push({ name: "Home" })
               }
             })
           .catch(error => {

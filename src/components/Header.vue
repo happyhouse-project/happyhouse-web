@@ -20,12 +20,28 @@
           <b-nav-item><router-link to="#">연립 다세대 주택</router-link></b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item class="login-tab"><router-link to="/login">로그인</router-link></b-nav-item>
+          <b-nav-item v-if="userInfo == null" class="login-tab"><router-link to="/login">로그인</router-link></b-nav-item>
+            <b-nav-item v-if="userInfo != null" class="userInfo"><span class="username">{{userInfo.name}}님 환영합니다</span></b-nav-item>
+            <b-nav-item v-if="userInfo != null" class="login-tab">
+              <b-button variant="outline-primary" @click="$store.dispatch('doLogout')">
+                <b-icon icon="power" aria-hidden="true"></b-icon>로그아웃
+              </b-button>
+            </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
   </header>
 </template>
+
+<script>
+import {mapState} from "vuex"
+
+export default {
+  computed: {
+    ...mapState(["userInfo"])
+  },
+}
+</script>
 
 <style scoped>
 header {
@@ -55,6 +71,16 @@ a:hover {
 
 .login-tab {  
   font-size: 16px;
+  font-weight: normal;
+}
+
+.userInfo {
+  margin-top: 2%;
+  font-size: 16px;  
+}
+
+.username { 
+  color: white;
   font-weight: normal;
 }
 </style>
