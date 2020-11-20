@@ -120,12 +120,7 @@ export default {
     };
   },
   methods: {
-    doRegister() {
-      if (this.toggle === 'no') {
-        alert('이용약관에 동의해주세요.');
-        return;
-      }
-
+    doRegister() {  
       axios
         .post('http://localhost/happyhouse/members', {
           email: this.email,
@@ -155,12 +150,10 @@ export default {
       }).open();
     },
     handleSubmit(e) {
-        this.submitted = true;
-        // stop here if form is invalid
-        this.$v.$touch();
-        if (this.$v.$invalid) {
-            return;
-        }
+      if (this.toggle === 'no') {
+        alert('이용약관에 동의해주세요.');
+        return;
+      }
         this.doRegister(); 
     },
     autoHypenPhone(val) {
