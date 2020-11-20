@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en">
    <head>
       <meta charset="utf-8" />
@@ -9,6 +9,18 @@
       <title><%= htmlWebpackPlugin.options.title %></title>
       <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5cc03bac0d3510a482068b50dd6e3612&libraries=services"></script>
    </head>
+   <style>
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
+      html,
+      body {
+         font-family: 'Noto Sans KR', sans-serif;
+
+         height: 100%;
+         margin: 0;
+         padding: 0;
+      }
+   </style>
    <body>
       <noscript>
          <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>

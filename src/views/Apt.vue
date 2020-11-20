@@ -1,5 +1,8 @@
 <template>
    <div class="mapArea">
+      <div v-show="is_show" id="sideinfo">
+         <side-info></side-info>
+      </div>
       <vue-daum-map
          id="map"
          :appKey="appKey"
@@ -21,10 +24,11 @@
 <script>
 import axios from '../axios-common.js';
 import VueDaumMap from 'vue-daum-map';
+import SideInfo from '../components/Apt/SideInfo.vue';
 
 export default {
-   name: 'App',
-   components: { VueDaumMap },
+   name: 'Apt',
+   components: { VueDaumMap, SideInfo },
    data: () => ({
       appKey: 'c68452e7b09406ba132a933dcc0f25f9',
       center: { lat: 37.5743822, lng: 126.9688505 },
@@ -32,6 +36,7 @@ export default {
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
       libraries: [],
       mapObject: null,
+      is_show: false,
    }),
    methods: {
       onLoad(map) {
@@ -108,18 +113,15 @@ export default {
             marker.setMap(this.mapObject);
 
             // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-            var content =
-               '<div class="customoverlay">' +
-               '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
-               '    <span class="title">' +
-               vo.aptName +
-               '                  <br>' +
-               vo.dong +
-               '                  <br>' +
-               vo.deals[0].dealAmount +
-               '만원</span>' +
-               '  </a>' +
-               '</div>';
+            var content = `<div class="customoverlay">
+                              <a href="#" onclick="haddle_toggle()" target="_self">
+                                 <span class="title">
+                                    ${vo.aptName}<br>
+                                    ${vo.dong}<br>
+                                    ${vo.deals[0].dealAmount}만원
+                                 </span>
+                              </a>
+                           </div>`;
 
             // console.log('content > ' + content);
 
@@ -133,6 +135,11 @@ export default {
             });
          }
       },
+
+      handle_toggle: function() {
+         alert('OKAY');
+         //this.is_show = !this.is_show; // #2, #3
+      },
    },
 };
 </script>
@@ -140,7 +147,6 @@ export default {
 <style>
 #map {
    display: inline-block;
-   position: absolute;
    width: 100%;
    height: 100%;
 }
@@ -148,7 +154,8 @@ export default {
 .mapArea {
    position: relative;
    width: 100%;
-   height: 600px;
+   height: 100%;
+   padding: 100px 0 130px 0;
 }
 
 .customoverlay {
@@ -193,5 +200,17 @@ export default {
    width: 22px;
    height: 12px;
    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
+}
+
+#sideinfo {
+   display: inline-block;
+   position: absolute;
+   margin: 20px 0;
+   margin-right: 10px;
+   right: 0;
+   min-height: 500px;
+   height: 70%;
+   width: 20em;
+   z-index: 2;
 }
 </style>
