@@ -1,10 +1,10 @@
 <template>
    <div id="app">
-      <router-view name="header"></router-view>
+      <router-view name="header" class="rootHeader"></router-view>
       <main>
-         <router-view />
+         <router-view class="rootApp" />
       </main>
-      <router-view name="footer"></router-view>
+      <router-view name="footer" class="rootFooter"></router-view>
    </div>
 </template>
 

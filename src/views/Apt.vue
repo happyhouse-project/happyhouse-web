@@ -71,7 +71,7 @@ export default {
             to: neLatlng.toString(),
          };
 
-         console.log(latlng);
+         //  console.log(latlng);
 
          if (event == 'dragend' || event == 'zoom_changed') {
             axios
@@ -101,7 +101,7 @@ export default {
 
          for (var idx in this.aptList) {
             // 미만의 데이터까지만
-            // if (idx >= 30) break;
+            if (idx >= 30) break;
 
             var apt = this.aptList[idx];
             var position = new kakao.maps.LatLng(apt.lat, apt.lng);
@@ -114,14 +114,13 @@ export default {
             // });
 
             // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-            var content =
-               '<div class="customoverlay"><a href="#" @click="selectApt()" target="_self"><span class="title">' +
-               apt.aptName +
-               '<br>' +
-               apt.dong +
-               '<br>' +
-               this.currency(apt.deal) +
-               '만원</span></a></div>';
+            var content = `<div class="customoverlay">
+                                <span class="markerInfo">
+                                  <p>${apt.aptName}</p>
+                                  <!-- <p style="color:#5f5f5f">${apt.dong}</p> -->
+                                  <p style="color:#c10d26">${this.currency(apt.deal)}만원</p>
+                                </span>
+                            </div>`;
 
             // 커스텀 오버레이를 생성합니다
             var customOverlay = new kakao.maps.CustomOverlay({
@@ -197,20 +196,19 @@ export default {
 #map {
    display: inline-block;
    width: 100%;
-   height: 1000px;
-   overflow-y: hidden;
+   height: 100%;
 }
 
 .mapArea {
    position: relative;
    width: 100%;
-   height: 100%;
+   height: 1000px;
    padding: 100px 0 130px 0;
 }
 
 .customoverlay {
    position: relative;
-   bottom: 85px;
+   bottom: 80px;
    border-radius: 6px;
    border: 1px solid #ccc;
    border-bottom: 2px solid #ddd;
@@ -220,26 +218,24 @@ export default {
    border: 0;
    box-shadow: 0px 1px 2px #888;
 }
-.customoverlay a {
+
+.customoverlay .markerInfo {
    display: block;
-   text-decoration: none;
+
    color: #000;
-   text-align: center;
    border-radius: 6px;
-   font-size: 12px;
-   font-weight: bold;
    overflow: hidden;
-   background: #d95050;
-   background: #79a5ff url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;
-}
-.customoverlay .title {
-   display: block;
+
    text-align: center;
    background: #fff;
-   margin-right: 35px;
-   padding: 10px 15px;
-   font-size: 12px;
+   /* margin-right: 35px; */
+   padding: 7px 10px;
+   font-size: 10px;
    font-weight: bold;
+}
+
+.customoverlay p {
+   margin: 0;
 }
 .customoverlay:after {
    content: '';
