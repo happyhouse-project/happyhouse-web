@@ -1,56 +1,58 @@
 <template>
    <footer>
-      <div class="footer-header">
-         <a href="/happyhouse/views/about.html" target="_blank">회사소개</a> | <a href="#">이용약관</a> | <a href="#">개인정보 처리방침</a> |
-         <a href="#" target="_blank">위치기반 서비스 이용약관</a>
+      <div class="footer-left">
+         <p style="margin:1px;">
+            <a href="/happyhouse/views/about.html" target="_blank">회사소개</a> | <a href="#">이용약관</a> | <a href="#">개인정보 처리방침</a> |
+            <a href="#" target="_blank">위치기반 서비스 이용약관</a>
+         </p>
+         <p>
+            상호 : (주)happyhouse-ssafy | 주소 : 서울특별시 강남구 역삼동 테헤란로 212 멀티캠퍼스
+            <br />
+            개발자 : 김한솔, 이주상 <span style="margin-left:20px; color:grey;">Copyright ⓒ HAPPYHOUSE-SSAFY. All Rights Reserved.</span>
+         </p>
       </div>
-      <div class="footer-body">
-         상호 : (주)happyhouse-ssafy | 주소 : 서울특별시 강남구 역삼동 테헤란로 212 멀티캠퍼스
-         <br />
-         개발자 : 김한솔, 이주상
-         <br />
-         <i class="fa fa-github-square" style="font-size:36px"></i>
-      </div>
-      <div class="footer-footer">
-         Copyright ⓒ HAPPYHOUSE-SSAFY. All Rights Reserved.
+      <div class="footer-right">
+         <img class="logo-img" alt="logo" src="../assets/images/happyhouse_logo.png" />
       </div>
    </footer>
 </template>
 
 <style scoped>
 footer {
-   height: 150px;
+   height: 80px;
    width: 100%;
    margin: auto;
-   background-color: #d9d9d9;
+   padding: 15px 50px 5px 50px;
+   background-color: #ebebebfe;
    display: flex;
-   flex-direction: column;
+   justify-content: space-between;
    bottom: 0;
    position: fixed;
    /* z-index: 3; */
-}
-.footer-header {
-   text-align: center;
-   padding-top: 10px;
-   padding-bottom: 10px;
-   font-size: 14px;
-   font-weight: bold;
-}
-
-.footer-body {
-   text-align: center;
-   padding-bottom: 10px;
-   font-size: 12px;
-}
-
-.footer-footer {
-   text-align: center;
-   padding-bottom: 10px;
-   font-size: 12px;
-}
-
-.footer-header a {
+   font-size: 6pt;
    color: black;
+}
+
+.footer-left {
+   width: 80%;
+}
+
+.footer-left p a {
    text-decoration: none;
+   color: black;
+}
+
+.footer-right {
+   width: 20%;
+}
+
+.footer-right img {
+   filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale");
+   -webkit-filter: grayscale(100%);
+   filter: gray;
+   max-height: 80%;
+   width: auto;
+   float: right;
+   opacity: 0.5;
 }
 </style>
