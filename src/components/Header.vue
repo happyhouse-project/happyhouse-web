@@ -1,6 +1,6 @@
 <template>
    <header>
-      <b-navbar toggleable="lg" type="dark" variant="dark">
+      <b-navbar toggleable="lg" id="navbar">
          <b-navbar-brand href="/">
             <div class="logo">
                <router-link to="/"><img class="logo-img" alt="logo" src="../assets/images/happyhouse_logo.png"/></router-link>
@@ -41,8 +41,22 @@ export default {
 <style scoped>
 header {
    min-height: 30px;
-   font-size: 18px;
+   font-size: 16px;
    font-weight: bold;
+   width: 100%;
+   display: flex;
+   position: relative;
+   /* align-items: center; */
+   border-bottom: solid 1.5px rgb(198, 198, 198);
+}
+
+#navbar {
+   padding: 5px 20px;
+   width: 100%;
+}
+
+.navbar-nav .nav-link {
+   margin-left: 20px;
 }
 
 .logo {
@@ -56,7 +70,7 @@ header {
 }
 
 a {
-   color: white;
+   color: black;
 }
 
 a:hover {
@@ -75,7 +89,7 @@ a:hover {
 }
 
 .username {
-   color: white;
+   color: black;
    font-weight: normal;
 }
 </style>

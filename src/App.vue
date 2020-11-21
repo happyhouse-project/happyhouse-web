@@ -1,10 +1,10 @@
 <template>
    <div id="app">
-      <router-view name="header" class="rootHeader"></router-view>
+      <router-view name="header"></router-view>
       <main>
-         <router-view class="rootApp" />
+         <router-view class="rootMain" />
       </main>
-      <router-view name="footer" class="rootFooter"></router-view>
+      <router-view name="footer"></router-view>
    </div>
 </template>
 
@@ -12,40 +12,21 @@
 
 <style>
 #app {
-   height: 100%;
+   /* height: 100%; */
    width: 100%;
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
    color: #2c3e50;
+   /* display: flex;
+   flex-direction: column;
+   min-height: 100vh; */
 }
 
-.rootHeader {
-   min-height: 30px;
-   font-size: 18px;
-   font-weight: bold;
-   width: auto;
-   z-index: 4;
-   position: relative;
-}
-.rootApp {
-   min-height: 100%;
-   margin: -100px 0 -50px;
-   width: auto;
-}
-.rootFooter {
-   min-height: 100px;
-}
-
-#nav {
-   padding: 30px;
-}
-
-#nav a {
-   font-weight: bold;
-   color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-   color: #42b983;
+.rootMain {
+   /* min-height: 400px !important; */
+   /* height: 1000px !important; */
+   /* margin: -100px 0 -50px; */
+   width: auto !important;
+   /* flex: 1 !important; */
 }
 </style>

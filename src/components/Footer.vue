@@ -19,11 +19,15 @@
 
 <style scoped>
 footer {
-   bottom: 0;
-   position: absolute;
+   height: 150px;
    width: 100%;
+   margin: auto;
    background-color: #d9d9d9;
-   z-index: 3;
+   display: flex;
+   flex-direction: column;
+   bottom: 0;
+   position: fixed;
+   /* z-index: 3; */
 }
 .footer-header {
    text-align: center;
