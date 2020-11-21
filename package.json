@@ -40,7 +40,7 @@
     },
     "rules": {
       "no-unused-vars": [
-        "error",
+        "off",
         {
           "varsIgnorePattern": "^map"
         }

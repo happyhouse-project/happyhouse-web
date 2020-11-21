@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import News from '@/views/News.vue'
-import Apt from '@/views/Apt.vue'
+import Apt from '@/views/Apt_ori.vue'
 
 Vue.use(VueRouter);
 
