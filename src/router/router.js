@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 import Home from '@/views/Home.vue'
 import News from '@/views/News.vue'
 import NewsInfo from '@/views/NewsInfo.vue'
@@ -17,52 +19,89 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    components: {
+      header: Header,
+      default: Home,
+      footer: Footer,
+    },
   },
   {
     path: '/news',
     name: 'News',
-    component: News,
+    components: {
+      header: Header,
+      default: News,
+      footer: Footer,
+    },
   },
   {
     path: '/newsInfo',
     name: 'NewsInfo',
-    component: NewsInfo,
-  },
-  {
-    path: '/apt',
-    name: 'apt',
-    component: Apt,
+    components: {
+      header: Header,
+      default: NewsInfo,
+      footer: Footer,
+    },
   },
   {
     path: '/notice',
     name: 'Notice',
-    component: Notice,
+    components: {
+      header: Header,
+      default: Notice,
+      footer: Footer,
+    },
   },
   {
     path: '/noticeDetail/:id',
     name: 'NoticeDetail',
-    component: NoticeDetail,
+    components: {
+      header: Header,
+      default: NoticeDetail,
+      footer: Footer,
+    },
   },
   {
     path: '/noticeRegister',
     name: 'NoticeRegister',
-    component: NoticeRegister,
+    components: {
+      header: Header,
+      default: NoticeRegister,
+      footer: Footer,
+    },
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login,
+    components: {
+      header: Header,
+      default: Login,
+      footer: Footer,
+    },
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register,
+    components: {
+      header: Header,
+      default: Register,
+      footer: Footer,
+    },
   },
   {
     path: '/registerConfirm',
     name: 'RegisterConfirm',
-    component: RegisterConfirm,
+    components: {
+      default: RegisterConfirm,
+    },
+  },
+  {
+    path: '/apt',
+    name: 'Apt',
+    components: {
+      header: Header,
+      default: Apt,
+    },
   },
 ];
 
