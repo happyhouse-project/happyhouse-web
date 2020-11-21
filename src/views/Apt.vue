@@ -202,8 +202,8 @@ export default {
 .mapArea {
    position: relative;
    width: 100%;
-   height: 1000px;
-   padding: 100px 0 130px 0;
+   height: 100vh;
+   /* padding: 100px 0 130px 0; */
 }
 
 .customoverlay {
