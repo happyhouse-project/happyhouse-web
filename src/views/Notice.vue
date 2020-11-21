@@ -1,20 +1,14 @@
 <template>
   <div class="main">
     <div class="infolist">
-      <h3>뉴스</h3>
-      <!-- member권한 v-if문 추가하기 -->
-      <button class="addBtn btn-right btn-bottom" type="button" @click="gotoAddNews">
-        뉴스 추가하기
-      </button>
-      <hr class="hr-main">
-      <div v-for="(news, index) in newsList" :key="index">
-        <p>
-          <a :href="news.link" target="_blank">{{ news.title }}</a>
-        </p>
-        <hr>
-      </div>
+        <h3>공지사항</h3>
+        <button class="addBtn btn-right btn-bottom" type="button" @click="gotoNoticeRegister">공지 추가하기</button>
+        <hr class="hr-main">
+        <div class="notice" v-for="(notice, index) in noticeList" :key="index">
+            <p @click="gotoNoticeDetail(notice.id)">{{notice.title}}</p><hr>
+        </div>
     </div>
-  </div>
+</div>
 </template>
 <script>
 import axios from 'axios'
@@ -24,28 +18,31 @@ export default {
   data() {
     return {
       member: null,
-      newsList: [],
+      noticeList: [],
     };
   },
    created() {
-        this.getNews()
+        this.getNotices()
         this.scrollTop()
     },
     methods: {
-        getNews() {
+        getNotices() {
             axios
-            .get('http://localhost/happyhouse/news')
+            .get('http://localhost/happyhouse/notices')
             .then(response=> {
                 this.loading = false,
-                this.newsList = response.data
+                this.noticeList = response.data
             })
             .catch(error=> {
                 alert('요청에 실패했습니다.')
                 console.log(error)
             })
         },
-        gotoAddNews() {
-            router.push({name : 'NewsInfo'})
+        gotoNoticeDetail(id) {
+            router.push({name : 'NoticeDetail', params: {id : id}})
+        },
+        gotoNoticeRegister() {
+            router.push({name : 'NoticeRegister'})
         },
         scrollTop() {
           window.scrollTo(0, top)
@@ -81,10 +78,6 @@ hr {
   margin: 5px;
 }
 
-.navbar {
-  margin-left: 42%;
-}
-
 input[type='checkbox'] {
   float: right;
   margin-right: 2%;
@@ -102,5 +95,9 @@ input[type='checkbox'] {
 
 .btn-bottom {
     margin-bottom: 1%;
+}
+
+.notice {
+    cursor: pointer;
 }
 </style>

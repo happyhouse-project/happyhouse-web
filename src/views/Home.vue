@@ -44,17 +44,25 @@
                </div>
             </div>
          </div>
+         <div class="col">
+            <!-- 공지사항 -->
+            <div class="notice">
+               <home-notice></home-notice>
+            </div>
+         </div>
       </div>
    </div>
 </template>
 
 <script>
 import HomeNews from '../components/Home/HomeNews.vue';
+import HomeNotice from '../components/Home/HomeNotice.vue';
 
 export default {
    name: 'Home',
    components: {
       HomeNews,
+      HomeNotice,
    },
 };
 </script>

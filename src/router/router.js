@@ -1,8 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Header from '@/components/Header.vue'
+import Footer from '@/components/Footer.vue'
 import Home from '@/views/Home.vue'
 import News from '@/views/News.vue'
-import Apt from '@/views/Apt_ori.vue'
+import NewsInfo from '@/views/NewsInfo.vue'
+import Apt from '@/views/Apt.vue'
+import Notice from '@/views/Notice.vue'
+import NoticeDetail from '@/views/NoticeDetail.vue'
+import NoticeRegister from '@/views/NoticeRegister.vue'
+import Login from '@/views/Login.vue'
+import Register from '@/views/Register.vue'
+import RegisterConfirm from '../views/RegisterConfirm.vue'
 
 Vue.use(VueRouter);
 
@@ -10,17 +19,89 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    components: {
+      header: Header,
+      default: Home,
+      footer: Footer,
+    },
   },
   {
     path: '/news',
     name: 'News',
-    component: News,
+    components: {
+      header: Header,
+      default: News,
+      footer: Footer,
+    },
   },
   {
-    path: '/Apt',
+    path: '/newsInfo',
+    name: 'NewsInfo',
+    components: {
+      header: Header,
+      default: NewsInfo,
+      footer: Footer,
+    },
+  },
+  {
+    path: '/notice',
+    name: 'Notice',
+    components: {
+      header: Header,
+      default: Notice,
+      footer: Footer,
+    },
+  },
+  {
+    path: '/noticeDetail/:id',
+    name: 'NoticeDetail',
+    components: {
+      header: Header,
+      default: NoticeDetail,
+      footer: Footer,
+    },
+  },
+  {
+    path: '/noticeRegister',
+    name: 'NoticeRegister',
+    components: {
+      header: Header,
+      default: NoticeRegister,
+      footer: Footer,
+    },
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    components: {
+      header: Header,
+      default: Login,
+      footer: Footer,
+    },
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    components: {
+      header: Header,
+      default: Register,
+      footer: Footer,
+    },
+  },
+  {
+    path: '/registerConfirm',
+    name: 'RegisterConfirm',
+    components: {
+      default: RegisterConfirm,
+    },
+  },
+  {
+    path: '/apt',
     name: 'Apt',
-    component: Apt,
+    components: {
+      header: Header,
+      default: Apt,
+    },
   },
 ];
 
@@ -30,4 +111,10 @@ const router = new VueRouter({
   routes,
 });
 
+// const router = new VueRouter({
+//   routes: routes,
+//   scrollBehavior (to, from, savedPosition) {
+//     return { x: 0, y: 0 }
+//   }
+// })
 export default router;
