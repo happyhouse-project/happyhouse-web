@@ -9,6 +9,7 @@ import NoticeDetail from '@/views/NoticeDetail.vue'
 import NoticeRegister from '@/views/NoticeRegister.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
+import RegisterConfirm from '../views/RegisterConfirm.vue'
 
 Vue.use(VueRouter);
 
@@ -57,6 +58,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
+  },
+  {
+    path: '/registerConfirm',
+    name: 'RegisterConfirm',
+    component: RegisterConfirm,
   },
 ];
 
