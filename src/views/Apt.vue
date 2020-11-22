@@ -1,8 +1,9 @@
 <template>
    <div class="mapArea">
-      <apt-search></apt-search>
-      <!-- <button @click="changeName()">아파트 조회</button><br />
-      이름 : {{ name }} / {{ out_name }} -->
+      <!-- <apt-search></apt-search> -->
+      <!-- <button @click="changeName()">아파트 조회</button><br /> -->
+      아파트정보 : {{ aptInfo }}
+      <input v-model="aptInfo" />
       <side-info :sendData="aptInfo"></side-info>
       <!-- <b-button v-b-toggle.sidebar-right>Toggle Sidebar</b-button>
       <b-button @click="open()">OPEN</b-button> -->
@@ -62,11 +63,6 @@ export default {
       aptInfo: [{ no: '' }, { dong: '' }, { aptName: '' }, { buildYear: '' }, { lat: '' }, { lng: '' }, { deal: '' }, { deals: [] }],
    }),
    filters: {},
-   watch: {
-      getAptInfo: function(data) {
-         this.name = 'Gang';
-      },
-   },
    methods: {
       changeName() {
          this.name = 'Kim';
@@ -108,6 +104,7 @@ export default {
                .then((response) => {
                   this.aptList = response.data;
                   this.setInfoMarker();
+                  this.setMarkerClick();
                })
                .catch((exp) => {
                   console.log('getTodoList처리에 실패하였습니다.' + exp);
@@ -123,10 +120,10 @@ export default {
          // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
-         var marker;
-
          this.removeMarkers();
          this.removeCustomOverays();
+
+         var marker;
 
          for (var idx in this.aptList) {
             // 미만의 데이터까지만
@@ -166,6 +163,7 @@ export default {
                position: position,
                image: markerImage, // 마커이미지 설정
                clickable: true, // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+               title: apt.no,
             });
 
             // 마커가 지도 위에 표시되도록 설정합니다
@@ -174,32 +172,54 @@ export default {
 
             customOverlay.setMap(this.mapObject);
             this.customOverlays.push(customOverlay);
-
-            kakao.maps.event.addListener(marker, 'click', clickListen(this.aptList[idx].no));
-
-            // axios -> selelctOne 등록
-            function clickListen(no) {
-               return function() {
-                  axios
-                     .get('http://localhost/happyhouse/house/' + no)
-                     .then((response) => {
-                        console.log('Before - ' + this.aptInfo);
-                        this.aptInfo = response.data;
-                        console.log(no + ' - ' + this.aptInfo);
-                        console.log(this.aptInfo);
-                        // this.getAptInfo(5);
-                        alert(this.aptInfo.no + ' ' + this.aptInfo.dong + ' ' + this.aptInfo.aptName);
-                        // console.log('Before : ', this.name, ' / out_name : ', out_name);
-                        // this.name = 'Goo';
-                        // out_name = 'Goo';
-                        // console.log('After : ', this.name, ' / out_name : ', out_name);
-                     })
-                     .catch((err) => {
-                        console.log('catch : ' + err);
-                     });
-               };
-            }
          }
+      },
+
+      setMarkerClick() {
+         console.log('marker : ', this.markers);
+         console.log('customOverlay : ', this.customOverlays);
+
+         this.markers.forEach(function(currnet, i) {
+            kakao.maps.event.addListener(currnet, 'click', function() {
+               var no = currnet.getTitle();
+               console.log('First - ', this.aptInfo);
+               axios
+                  .get('http://localhost/happyhouse/house/' + no)
+                  .then((response) => {
+                     console.log('Before - ' + this.aptInfo);
+                     this.aptInfo = response.data;
+                     console.log(no + ' - ' + this.aptInfo);
+                  })
+                  .catch((err) => {
+                     console.log('catch : ' + err);
+                  });
+            });
+         });
+
+         // kakao.maps.event.addListener(marker, 'click', clickListen(this.aptList[idx].no));
+
+         // // axios -> selelctOne 등록
+         // function clickListen(no) {
+         //    return function(e) {
+         //       axios
+         //          .get('http://localhost/happyhouse/house/' + no)
+         //          .then((response) => {
+         //             console.log('Before - ' + this.aptInfo);
+         //             this.aptInfo = response.data;
+         //             console.log(no + ' - ' + this.aptInfo);
+         //             console.log(this.aptInfo);
+         //             this.getAptInfo(5);
+         //             // alert(this.aptInfo.no + ' ' + this.aptInfo.dong + ' ' + this.aptInfo.aptName);
+         //             // console.log('Before : ', this.name, ' / out_name : ', out_name);
+         //             // this.name = 'Goo';
+         //             // out_name = 'Goo';
+         //             // console.log('After : ', this.name, ' / out_name : ', out_name);
+         //          })
+         //          .catch((err) => {
+         //             console.log('catch : ' + err);
+         //          });
+         //    };
+         // }
       },
 
       removeMarkers() {

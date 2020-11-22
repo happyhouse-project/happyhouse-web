@@ -9,8 +9,8 @@
             <b>거래 내역</b><br />
             <b-table striped hover :items="items" :fields="fields"></b-table>
             <div class="btn-group">
-               <b-button class="mt-2" variant="outline-warning" @click="toggleModal" style="">찜하기</b-button>
-               <b-button class="mt-2" variant="outline-danger" @click="hideModal">닫기</b-button>
+               <b-button class="mt-2" variant="outline-warning" style="">찜하기</b-button>
+               <b-button class="mt-2" variant="outline-danger">닫기</b-button>
             </div>
          </b-card-text>
       </b-card>
