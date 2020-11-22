@@ -1,8 +1,21 @@
 <template>
    <div class="mapArea">
-      <!-- <div v-show="is_show" id="sideinfo">
-         <side-info></side-info>
-      </div> -->
+      <apt-search></apt-search>
+      <!-- <button @click="changeName()">아파트 조회</button><br />
+      이름 : {{ name }} / {{ out_name }} -->
+      <side-info :sendData="aptInfo"></side-info>
+      <!-- <b-button v-b-toggle.sidebar-right>Toggle Sidebar</b-button>
+      <b-button @click="open()">OPEN</b-button> -->
+      <div>
+         <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
+            <div class="px-3 py-2">
+               <p>
+                  Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+               </p>
+               <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
+            </div>
+         </b-sidebar>
+      </div>
       <vue-daum-map
          id="map"
          :appKey="appKey"
@@ -25,12 +38,17 @@
 <script>
 import axios from 'axios';
 import VueDaumMap from 'vue-daum-map';
-//import SideInfo from '../components/Apt/SideInfo.vue';
+import SideInfo from '../components/Apt/SideInfo.vue';
+import AptSearch from '../components/Apt/AptSearch.vue';
+
+var out_name = 'Young';
 
 export default {
    name: 'Apt',
-   components: { VueDaumMap },
+   components: { VueDaumMap, SideInfo, AptSearch },
    data: () => ({
+      name: 'LEE',
+      out_name,
       appKey: '5cc03bac0d3510a482068b50dd6e3612',
       center: { lat: 37.5743822, lng: 126.9688505 },
       level: 3,
@@ -44,7 +62,18 @@ export default {
       aptInfo: [{ no: '' }, { dong: '' }, { aptName: '' }, { buildYear: '' }, { lat: '' }, { lng: '' }, { deal: '' }, { deals: [] }],
    }),
    filters: {},
+   watch: {
+      getAptInfo: function(data) {
+         this.name = 'Gang';
+      },
+   },
    methods: {
+      changeName() {
+         this.name = 'Kim';
+         this.out_name = 'Jegal';
+         console.log(this.name);
+      },
+
       onLoad(map) {
          // 지도의 현재 영역을 얻어옵니다
          var bounds = map.getBounds();
@@ -154,9 +183,16 @@ export default {
                   axios
                      .get('http://localhost/happyhouse/house/' + no)
                      .then((response) => {
+                        console.log('Before - ' + this.aptInfo);
                         this.aptInfo = response.data;
+                        console.log(no + ' - ' + this.aptInfo);
                         console.log(this.aptInfo);
+                        // this.getAptInfo(5);
                         alert(this.aptInfo.no + ' ' + this.aptInfo.dong + ' ' + this.aptInfo.aptName);
+                        // console.log('Before : ', this.name, ' / out_name : ', out_name);
+                        // this.name = 'Goo';
+                        // out_name = 'Goo';
+                        // console.log('After : ', this.name, ' / out_name : ', out_name);
                      })
                      .catch((err) => {
                         console.log('catch : ' + err);
@@ -202,7 +238,7 @@ export default {
 .mapArea {
    position: relative;
    width: 100%;
-   height: 100vh;
+   height: 90vh;
    /* padding: 100px 0 130px 0; */
 }
 
@@ -246,17 +282,5 @@ export default {
    width: 22px;
    height: 12px;
    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
-}
-
-#sideinfo {
-   display: inline-block;
-   position: absolute;
-   margin: 20px 0;
-   margin-right: 10px;
-   right: 0;
-   min-height: 500px;
-   height: 70%;
-   width: 20em;
-   z-index: 2;
 }
 </style>
