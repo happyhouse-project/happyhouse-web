@@ -16,10 +16,9 @@
             <b>사용자 리뷰</b><br />
             <div class="reviewTable">
                <div class="review-wrapper">
-                  <div class="reviewRow" v-for="(review, idx) in getReviews()" :key="idx">
+                  <div class="reviewRow" v-for="review in getReviews" :key="review.id">
                      <span class="left">
-                        <p>"{{ review.content }} "</p>
-                        <p>{{ review.id }}</p>
+                        <p>"{{ review.content }}"</p>
                      </span>
                      <span class="right">
                         <b-button size="sm" pill variant="outline-success" disabled="disabled">{{ review.rating }}</b-button>
@@ -68,9 +67,11 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
    name: 'SideInfo',
-   props: ['sendData'],
+   props: ['sendData', 'aptReviews'],
    data: () => {
       return {
          content: '',
@@ -101,7 +102,12 @@ export default {
             },
          ],
 
-         reviews: [],
+         reviews: [
+            {writer: ''},
+            {content: ''},
+            {rating: 0},
+         ],
+         aptInfo: null,
       };
    },
    methods: {
@@ -112,45 +118,11 @@ export default {
       closeSideInfo() {
          this.$emit('closeFlag');
       },
-
-      getReviews() {
-         var arr = [
-            {
-               id: '주상',
-               content: '전망이 좋아요',
-               rating: '5.5',
-            },
-            {
-               id: '미란이',
-               content: '전망이 그닥',
-               rating: '7.8',
-            },
-            {
-               id: '한솔',
-               content: '역이랑 가까워요',
-               rating: '8',
-            },
-            {
-               id: '홍길동',
-               content: '아버지! 정답을 알려줘! 제바아아아아알',
-               rating: '5.8',
-            },
-         ];
-         // console.log('arr : ', arr);
-
-         var reviews = [];
-
-         for (var i in arr) {
-            reviews.push({
-               id: arr[i].id,
-               content: arr[i].content,
-               rating: arr[i].rating,
-            });
-         }
-         return reviews;
-      },
    },
    computed: {
+      getReviews() {
+         return this.aptReviews;
+      },
       getAptName() {
          return this.sendData.aptName;
       },

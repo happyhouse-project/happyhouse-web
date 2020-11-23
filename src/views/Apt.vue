@@ -1,7 +1,7 @@
 <template>
    <div class="mapArea">
       <apt-search @searchApt="searchAptByNo"></apt-search>
-      <side-info v-show="is_show" :sendData="aptInfo" v-on:closeFlag="changeIsShow"></side-info>
+      <side-info v-show="is_show" :sendData="aptInfo" :aptReviews="reviews" v-on:closeFlag="changeIsShow"></side-info>
       <div>
          <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
             <div class="px-3 py-2">
@@ -52,6 +52,7 @@ export default {
       customOverlays: [],
       aptInfo: [{ no: '' }, { dong: '' }, { aptName: '' }, { buildYear: '' }, { lat: '' }, { lng: '' }, { deal: '' }, { deals: [] }],
       aptNo: '',
+      reviews: [],
    }),
    filters: {},
    created() {
@@ -187,9 +188,8 @@ export default {
                axios
                   .get('http://localhost/happyhouse/house/' + no)
                   .then((response) => {
-                     // console.log(response.data);
                      this.aptInfo = response.data;
-                     // console.log(no + ' - ' + this.aptInfo.aptName);
+                     this.getReviews(no);
                      this.is_show = true;
                   })
                   .catch((err) => {
@@ -207,6 +207,7 @@ export default {
                this.aptInfo = response.data;
                this.center.lat = this.aptInfo.lat;
                this.center.lng = this.aptInfo.lng;
+               this.getReviews(no);
                this.is_show = true;
             })
             .catch((err) => {
@@ -235,7 +236,21 @@ export default {
       currency(value) {
          var num = new Number(value);
          return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,');
-      },      
+      },
+
+      getReviews(no) {
+         axios
+         .get('http://localhost/happyhouse/reviews/' + no)
+         .then((response) => {
+            //this.loading = false
+            this.reviews = response.data
+            console.log(this.reviews);
+         })
+         .catch((error) => {
+            alert('요청에 실패했습니다.');
+            console.log(error);
+         });
+      },
    },
 };
 </script>

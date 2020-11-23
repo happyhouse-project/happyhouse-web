@@ -13,7 +13,7 @@
       </button>
     </div>
     <!-- select -->
-    <div class="searchResult">
+    <div v-if="selectedBox" class="searchResult">
       <div v-for="apt in aptList" :key="apt.no">
         <div class="searchResult-box" @click="searchApt(apt.no)">
           <span>{{ apt.aptName }}</span>
@@ -33,6 +33,7 @@ export default {
     return {
       aptName: '',
       aptList: [],
+      selectedBox: false,
     };
   },
   methods: {
@@ -40,8 +41,8 @@ export default {
       axios
         .get('http://localhost/happyhouse/house/search/apt/' + this.aptName)
         .then((response) => {
-          (this.loading = false), (this.aptList = response.data);
-          console.log(this.aptList);
+           (this.loading = false), (this.aptList = response.data);
+           this.selectedBox = true;
         })
         .catch((error) => {
           alert('요청에 실패했습니다.');
@@ -49,9 +50,13 @@ export default {
         });
     },
     searchApt(no) {
-       console.log("자식 : " + no);
        this.$emit("searchApt", no)
     }
+  },
+  updated() { // 입력창을 지우면 select box가 사라짐
+     if(this.aptName == undefined || this.aptName == '') {
+        this.selectedBox = false
+     }
   },
 };
 </script>
