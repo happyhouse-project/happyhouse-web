@@ -1,12 +1,7 @@
 <template>
    <div class="mapArea">
-      <!-- <apt-search></apt-search> -->
-      <!-- <button @click="changeName()">아파트 조회</button><br /> -->
-      <!--아파트정보 : {{ aptInfo }}-->
-      <input v-model="aptInfo" />
-      <side-info :sendData="aptInfo"></side-info>
-      <!-- <b-button v-b-toggle.sidebar-right>Toggle Sidebar</b-button>
-      <b-button @click="open()">OPEN</b-button> -->
+      <apt-search></apt-search>
+      <side-info v-show="is_show" :sendData="aptInfo"></side-info>
       <div>
          <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
             <div class="px-3 py-2">
@@ -41,14 +36,10 @@ import VueDaumMap from 'vue-daum-map';
 import SideInfo from '../components/Apt/SideInfo.vue';
 import AptSearch from '../components/Apt/AptSearch.vue';
 
-var out_name = 'Young';
-
 export default {
    name: 'Apt',
    components: { VueDaumMap, SideInfo, AptSearch },
    data: () => ({
-      name: 'LEE',
-      out_name,
       appKey: '5cc03bac0d3510a482068b50dd6e3612',
       center: { lat: 37.5743822, lng: 126.9688505 },
       level: 3,
@@ -60,7 +51,6 @@ export default {
       markers: [],
       customOverlays: [],
       aptInfo: [{ no: '' }, { dong: '' }, { aptName: '' }, { buildYear: '' }, { lat: '' }, { lng: '' }, { deal: '' }, { deals: [] }],
-      
    }),
    filters: {},
    methods: {
@@ -71,8 +61,7 @@ export default {
       },
 
       onLoad(map) {
-
-         this.onSearchInit()
+         this.onSearchInit();
          // 지도의 현재 영역을 얻어옵니다
          var bounds = map.getBounds();
          // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
@@ -81,26 +70,26 @@ export default {
          this.markers = [];
          this.customOverlays = [];
          // 기존 마커 초기화
-         // this.onMapEvent('dragend');
+         this.onMapEvent('dragend');
       },
 
       onSearchInit() {
-         var aptNo = this.$route.params.no
+         var aptNo = this.$route.params.no;
          console.log(aptNo);
-         if(aptNo !== undefined) {
-            this.getAptDetail(aptNo)
+         if (aptNo !== undefined) {
+            this.getAptDetail(aptNo);
          }
-      }, 
+      },
 
       onMapEvent(event) {
-         console.log("onMapEvent : " + event);
+         console.log('onMapEvent : ' + event);
          var bounds = this.mapObject.getBounds();
 
          // 영역정보의 남서쪽 정보를 얻어옵니다
          var swLatlng = bounds.getSouthWest();
 
          // 영역정보의 북동쪽 정보를 얻어옵니다
-         var neLatlng = bounds.getNorthEast();         
+         var neLatlng = bounds.getNorthEast();
 
          var latlng = {
             from: swLatlng.toString(),
@@ -111,7 +100,7 @@ export default {
 
          //  console.log(latlng);
 
-         if (event == 'tilesloaded' || event == 'zoom_changed') {
+         if (event == 'dragend' || event == 'zoom_changed') {
             axios
                .post('http://localhost/happyhouse/house/aptDragSearch', latlng)
                .then((response) => {
@@ -120,7 +109,7 @@ export default {
                   this.setMarkerClick();
                })
                .catch((exp) => {
-                  console.log('getTodoList처리에 실패하였습니다.' + exp);
+                  console.log('err.' + exp);
                });
          }
       },
@@ -144,13 +133,6 @@ export default {
 
             var apt = this.aptList[idx];
             var position = new kakao.maps.LatLng(apt.lat, apt.lng);
-
-            // console.log(vo.aptName + ',' + vo.dong);
-            // console.log('>>' + vo.deals[0].dealAmount);
-            // 마커에 표시할 인포윈도우를 생성합니다
-            // var infowindow = new kakao.maps.InfoWindow({
-            //     content: '<div>'+this.aptList[idx].aptName+'</div>' // 인포윈도우에 표시할 내용
-            // });
 
             // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
             var content = `<div class="customoverlay">
@@ -192,14 +174,18 @@ export default {
          this.markers.forEach((current, i) => {
             kakao.maps.event.addListener(current, 'click', () => {
                var no = current.getTitle();
+               var positions = current.getPosition();
+
+               // 중앙값 변경
+               this.mapObject.setCenter(new kakao.maps.LatLng(positions.Ma, positions.La));
+               this.onMapEvent('dragend'); // 중앙값 이동 후, 변경 지도 기준으로 다시 뿌리기
                axios
                   .get('http://localhost/happyhouse/house/' + no)
                   .then((response) => {
-                     console.log(response.data);
+                     // console.log(response.data);
                      this.aptInfo = response.data;
-                     this.center.lat = this.aptInfo.lat
-                     this.center.lng = this.aptInfo.lng
-                     console.log(no + ' - ' + this.aptInfo.aptName);
+                     // console.log(no + ' - ' + this.aptInfo.aptName);
+                     this.is_show = true;
                   })
                   .catch((err) => {
                      console.log('catch : ' + err);
@@ -210,16 +196,16 @@ export default {
 
       getAptDetail(no) {
          axios
-         .get('http://localhost/happyhouse/house/' + no)
-         .then((response) => {
-            console.log(response.data);
-            this.aptInfo = response.data;
-            this.center.lat = this.aptInfo.lat
-            this.center.lng = this.aptInfo.lng            
-         })
-         .catch((err) => {
-            console.log('catch : ' + err);
-         });
+            .get('http://localhost/happyhouse/house/' + no)
+            .then((response) => {
+               console.log(response.data);
+               this.aptInfo = response.data;
+               this.center.lat = this.aptInfo.lat;
+               this.center.lng = this.aptInfo.lng;
+            })
+            .catch((err) => {
+               console.log('catch : ' + err);
+            });
       },
 
       removeMarkers() {
