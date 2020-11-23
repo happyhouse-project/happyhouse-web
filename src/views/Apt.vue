@@ -23,7 +23,6 @@
          @zoom_changed="onMapEvent('zoom_changed', $event)"
          @dblclick="onMapEvent('dblclick', $event)"
          @dragend="onMapEvent('dragend', $event)"
-         @tilesloaded="onMapEvent('tilesloaded', $event)"
          @maptypeid_changed="onMapEvent('maptypeid_changed', $event)"
       >
       </vue-daum-map>
@@ -216,7 +215,10 @@ export default {
             kakao.maps.event.addListener(current, 'click', () => {
                var no = current.getTitle();
                var positions = current.getPosition();
+
+               // 중앙값 변경
                this.mapObject.setCenter(new kakao.maps.LatLng(positions.Ma, positions.La));
+               this.onMapEvent('dragend'); // 중앙값 이동 후, 변경 지도 기준으로 다시 뿌리기
                axios
                   .get('http://localhost/happyhouse/house/' + no)
                   .then((response) => {
@@ -230,11 +232,6 @@ export default {
                   });
             });
          });
-      },
-
-      getCenter() {
-         console.log('중앙값 - ', this.center);
-         console.log('setCenter() ', this.map.getCenter());
       },
 
       removeMarkers() {
