@@ -9,14 +9,7 @@
                <b-carousel-slide img-src="http://localhost/happyhouse/static/images/bg-image3.jpg"></b-carousel-slide>
             </b-carousel>
          </div>
-         <div class="search">
-            <form action="#">
-               <input type="text" placeholder="원하시는 아파트명, 주택명을 입력해주세요" name="search" />
-               <button type="button" onclick="location.href = 'apt.html'">
-                  <i class="fa fa-search"></i>
-               </button>
-            </form>
-         </div>
+         <home-search></home-search>
          <div class="container">
             <div class="row">
                <div class="col">
@@ -47,12 +40,14 @@
 <script>
 import HomeNews from '../components/Home/HomeNews.vue';
 import HomeNotice from '../components/Home/HomeNotice.vue';
+import HomeSearch from '../components/Home/HomeSearch.vue'
 
 export default {
    name: 'Home',
    components: {
       HomeNews,
       HomeNotice,
+      HomeSearch,
    },
 };
 </script>

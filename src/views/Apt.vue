@@ -2,7 +2,7 @@
    <div class="mapArea">
       <!-- <apt-search></apt-search> -->
       <!-- <button @click="changeName()">아파트 조회</button><br /> -->
-      아파트정보 : {{ aptInfo }}
+      <!--아파트정보 : {{ aptInfo }}-->
       <input v-model="aptInfo" />
       <side-info :sendData="aptInfo"></side-info>
       <!-- <b-button v-b-toggle.sidebar-right>Toggle Sidebar</b-button>
@@ -28,7 +28,6 @@
          @zoom_changed="onMapEvent('zoom_changed', $event)"
          @dblclick="onMapEvent('dblclick', $event)"
          @dragend="onMapEvent('dragend', $event)"
-         @tilesloaded="onMapEvent('tilesloaded', $event)"
          @maptypeid_changed="onMapEvent('maptypeid_changed', $event)"
       >
       </vue-daum-map>
@@ -61,6 +60,7 @@ export default {
       markers: [],
       customOverlays: [],
       aptInfo: [{ no: '' }, { dong: '' }, { aptName: '' }, { buildYear: '' }, { lat: '' }, { lng: '' }, { deal: '' }, { deals: [] }],
+      
    }),
    filters: {},
    methods: {
@@ -71,6 +71,8 @@ export default {
       },
 
       onLoad(map) {
+
+         this.onSearchInit()
          // 지도의 현재 영역을 얻어옵니다
          var bounds = map.getBounds();
          // 영역정보를 문자열로 얻어옵니다. ((남,서), (북,동)) 형식입니다
@@ -79,26 +81,37 @@ export default {
          this.markers = [];
          this.customOverlays = [];
          // 기존 마커 초기화
-         this.onMapEvent('dragend');
+         // this.onMapEvent('dragend');
       },
 
+      onSearchInit() {
+         var aptNo = this.$route.params.no
+         console.log(aptNo);
+         if(aptNo !== undefined) {
+            this.getAptDetail(aptNo)
+         }
+      }, 
+
       onMapEvent(event) {
+         console.log("onMapEvent : " + event);
          var bounds = this.mapObject.getBounds();
 
          // 영역정보의 남서쪽 정보를 얻어옵니다
          var swLatlng = bounds.getSouthWest();
 
          // 영역정보의 북동쪽 정보를 얻어옵니다
-         var neLatlng = bounds.getNorthEast();
+         var neLatlng = bounds.getNorthEast();         
 
          var latlng = {
             from: swLatlng.toString(),
             to: neLatlng.toString(),
          };
 
+         console.log(latlng);
+
          //  console.log(latlng);
 
-         if (event == 'dragend' || event == 'zoom_changed') {
+         if (event == 'tilesloaded' || event == 'zoom_changed') {
             axios
                .post('http://localhost/happyhouse/house/aptDragSearch', latlng)
                .then((response) => {
@@ -176,9 +189,6 @@ export default {
       },
 
       setMarkerClick() {
-         //console.log('marker : ', this.markers);
-         //console.log('customOverlay : ', this.customOverlays);
-
          this.markers.forEach((current, i) => {
             kakao.maps.event.addListener(current, 'click', () => {
                var no = current.getTitle();
@@ -187,6 +197,8 @@ export default {
                   .then((response) => {
                      console.log(response.data);
                      this.aptInfo = response.data;
+                     this.center.lat = this.aptInfo.lat
+                     this.center.lng = this.aptInfo.lng
                      console.log(no + ' - ' + this.aptInfo.aptName);
                   })
                   .catch((err) => {
@@ -194,31 +206,20 @@ export default {
                   });
             });
          });
+      },
 
-         // kakao.maps.event.addListener(marker, 'click', clickListen(this.aptList[idx].no));
-
-         // // axios -> selelctOne 등록
-         // function clickListen(no) {
-         //    return function(e) {
-         //       axios
-         //          .get('http://localhost/happyhouse/house/' + no)
-         //          .then((response) => {
-         //             console.log('Before - ' + this.aptInfo);
-         //             this.aptInfo = response.data;
-         //             console.log(no + ' - ' + this.aptInfo);
-         //             console.log(this.aptInfo);
-         //             this.getAptInfo(5);
-         //             // alert(this.aptInfo.no + ' ' + this.aptInfo.dong + ' ' + this.aptInfo.aptName);
-         //             // console.log('Before : ', this.name, ' / out_name : ', out_name);
-         //             // this.name = 'Goo';
-         //             // out_name = 'Goo';
-         //             // console.log('After : ', this.name, ' / out_name : ', out_name);
-         //          })
-         //          .catch((err) => {
-         //             console.log('catch : ' + err);
-         //          });
-         //    };
-         // }
+      getAptDetail(no) {
+         axios
+         .get('http://localhost/happyhouse/house/' + no)
+         .then((response) => {
+            console.log(response.data);
+            this.aptInfo = response.data;
+            this.center.lat = this.aptInfo.lat
+            this.center.lng = this.aptInfo.lng            
+         })
+         .catch((err) => {
+            console.log('catch : ' + err);
+         });
       },
 
       removeMarkers() {
