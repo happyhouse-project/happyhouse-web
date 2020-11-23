@@ -176,19 +176,18 @@ export default {
       },
 
       setMarkerClick() {
-         console.log('marker : ', this.markers);
-         console.log('customOverlay : ', this.customOverlays);
+         //console.log('marker : ', this.markers);
+         //console.log('customOverlay : ', this.customOverlays);
 
-         this.markers.forEach(function(currnet, i) {
-            kakao.maps.event.addListener(currnet, 'click', function() {
-               var no = currnet.getTitle();
-               console.log('First - ', this.aptInfo);
+         this.markers.forEach((current, i) => {
+            kakao.maps.event.addListener(current, 'click', () => {
+               var no = current.getTitle();
                axios
                   .get('http://localhost/happyhouse/house/' + no)
                   .then((response) => {
-                     console.log('Before - ' + this.aptInfo);
+                     console.log(response.data);
                      this.aptInfo = response.data;
-                     console.log(no + ' - ' + this.aptInfo);
+                     console.log(no + ' - ' + this.aptInfo.aptName);
                   })
                   .catch((err) => {
                      console.log('catch : ' + err);
