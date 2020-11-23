@@ -1,13 +1,13 @@
 <template>
    <div class="info">
-      <b-card title="신동아 아파트" img-src="https://picsum.photos/600/300/?image=25" img-alt="Image" img-top tag="article" style="max-width: 20rem;" class="mb-2">
+      <b-card :title="getAptName" img-src="https://picsum.photos/600/300/?image=25" img-alt="Image" img-top tag="article" style="max-width: 20rem;" class="mb-2">
          <b-card-text>
-            <span class="dong">사직동</span>
-            <span class="jibun">14-5번지</span>
-            <p style="font-size:10pt">2007년</p>
+            <span class="dong">{{ sendData.dong }}</span>
+            <span class="jibun">{{ sendData.jibun }}</span>
+            <p style="font-size:10pt">{{ sendData.buildyear }}</p>
             <hr />
             <b>거래 내역</b><br />
-            <b-table striped hover :items="items" :fields="fields"></b-table>
+            <b-table striped hover :items="getDealTable" :fields="fields"></b-table>
             <div class="btn-group">
                <b-button class="mt-2" variant="outline-warning" style="">찜하기</b-button>
                <b-button class="mt-2" variant="outline-danger">닫기</b-button>
@@ -23,7 +23,7 @@ export default {
    props: ['sendData'],
    data: () => {
       return {
-         count: 0,
+         aptName: '',
 
          fields: [
             {
@@ -42,20 +42,42 @@ export default {
                sortable: true,
             },
          ],
-         items: [
-            { no: 40, deal: '104000', area: '23.45' },
-            { no: 21, deal: '123000', area: '43' },
-            { no: 89, deal: '144000', area: '25' },
-            { no: 38, deal: '100090', area: '25' },
-            { no: 40, deal: '104000', area: '23.45' },
-            { no: 21, deal: '123000', area: '43' },
-            { no: 89, deal: '144000', area: '25' },
-         ],
       };
+   },
+   filters: {
+      price: function(value) {
+         if (!value) return value;
+         return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      },
    },
    methods: {
       getData() {
          console.log(this.sendData);
+      },
+      currency(value) {
+         var num = new Number(value);
+         return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,');
+      },
+   },
+   computed: {
+      getAptName() {
+         return this.sendData.aptName;
+      },
+      getDealTable() {
+         var arr = this.sendData.deals;
+         // console.log('arr : ', arr);
+
+         var dealList = [];
+
+         for (var i in arr) {
+            dealList.push({
+               no: arr[i].no,
+               deal: arr[i].deal,
+               area: arr[i].area,
+            });
+         }
+
+         return dealList;
       },
    },
 };
@@ -75,6 +97,7 @@ export default {
    background-color: white;
    border-radius: 10px;
    box-shadow: 0px 4px 10px 0px #00000021;
+   overflow: auto;
    /* border: 1px solid rgb(211, 211, 211); */
 }
 

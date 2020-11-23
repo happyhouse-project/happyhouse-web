@@ -1,12 +1,7 @@
 <template>
    <div class="mapArea">
-      <!-- <apt-search></apt-search> -->
-      <!-- <button @click="changeName()">아파트 조회</button><br /> -->
-      아파트정보 : {{ aptInfo }}
-      <input v-model="aptInfo" />
-      <side-info :sendData="aptInfo"></side-info>
-      <!-- <b-button v-b-toggle.sidebar-right>Toggle Sidebar</b-button>
-      <b-button @click="open()">OPEN</b-button> -->
+      <apt-search></apt-search>
+      <side-info v-show="is_show" :sendData="aptInfo"></side-info>
       <div>
          <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
             <div class="px-3 py-2">
@@ -42,14 +37,10 @@ import VueDaumMap from 'vue-daum-map';
 import SideInfo from '../components/Apt/SideInfo.vue';
 import AptSearch from '../components/Apt/AptSearch.vue';
 
-var out_name = 'Young';
-
 export default {
    name: 'Apt',
    components: { VueDaumMap, SideInfo, AptSearch },
    data: () => ({
-      name: 'LEE',
-      out_name,
       appKey: '5cc03bac0d3510a482068b50dd6e3612',
       center: { lat: 37.5743822, lng: 126.9688505 },
       level: 3,
@@ -107,7 +98,7 @@ export default {
                   this.setMarkerClick();
                })
                .catch((exp) => {
-                  console.log('getTodoList처리에 실패하였습니다.' + exp);
+                  console.log('err.' + exp);
                });
          }
       },
@@ -172,54 +163,78 @@ export default {
 
             customOverlay.setMap(this.mapObject);
             this.customOverlays.push(customOverlay);
+
+            // kakao.maps.event.addListener(marker, 'click', clickListen(this.aptList[idx].no));
+
+            // // axios -> selelctOne 등록
+            // function clickListen(no) {
+            //    return function(e) {
+            //       axios
+            //          .get('http://localhost/happyhouse/house/' + no)
+            //          .then((response) => {
+            //             console.log('Before - ' + this.aptInfo);
+            //             this.aptInfo = response.data;
+            //             console.log(no + ' - ' + this.aptInfo);
+            //             console.log(this.aptInfo);
+            //             this.getAptInfo(5);
+            //             // alert(this.aptInfo.no + ' ' + this.aptInfo.dong + ' ' + this.aptInfo.aptName);
+            //             // console.log('Before : ', this.name, ' / out_name : ', out_name);
+            //             // this.name = 'Goo';
+            //             // out_name = 'Goo';
+            //             // console.log('After : ', this.name, ' / out_name : ', out_name);
+            //          })
+            //          .catch((err) => {
+            //             console.log('catch : ' + err);
+            //          });
+            //    };
+            // }
          }
       },
 
-      setMarkerClick() {
-         console.log('marker : ', this.markers);
-         console.log('customOverlay : ', this.customOverlays);
+      // setMarkerClick() {
+      //    //console.log('marker : ', this.markers);
+      //    //console.log('customOverlay : ', this.customOverlays);
+      //    this.markers.forEach((current, i) => {
+      //       kakao.maps.event.addListener(current, 'click', () => {
+      //          var no = current.getTitle();
+      //          axios
+      //             .get('http://localhost/happyhouse/house/' + no)
+      //             .then((response) => {
+      //                console.log(response.data);
+      //                this.aptInfo = response.data;
+      //                console.log(no + ' - ' + this.aptInfo.aptName);
+      //             })
+      //             .catch((err) => {
+      //                console.log('catch : ' + err);
+      //             });
+      //       });
+      //    });
+      // },
 
-         this.markers.forEach(function(currnet, i) {
-            kakao.maps.event.addListener(currnet, 'click', function() {
-               var no = currnet.getTitle();
-               console.log('First - ', this.aptInfo);
+      setMarkerClick() {
+         this.markers.forEach((current, i) => {
+            kakao.maps.event.addListener(current, 'click', () => {
+               var no = current.getTitle();
+               var positions = current.getPosition();
+               this.mapObject.setCenter(new kakao.maps.LatLng(positions.Ma, positions.La));
                axios
                   .get('http://localhost/happyhouse/house/' + no)
                   .then((response) => {
-                     console.log('Before - ' + this.aptInfo);
+                     // console.log(response.data);
                      this.aptInfo = response.data;
-                     console.log(no + ' - ' + this.aptInfo);
+                     // console.log(no + ' - ' + this.aptInfo.aptName);
+                     this.is_show = true;
                   })
                   .catch((err) => {
                      console.log('catch : ' + err);
                   });
             });
          });
+      },
 
-         // kakao.maps.event.addListener(marker, 'click', clickListen(this.aptList[idx].no));
-
-         // // axios -> selelctOne 등록
-         // function clickListen(no) {
-         //    return function(e) {
-         //       axios
-         //          .get('http://localhost/happyhouse/house/' + no)
-         //          .then((response) => {
-         //             console.log('Before - ' + this.aptInfo);
-         //             this.aptInfo = response.data;
-         //             console.log(no + ' - ' + this.aptInfo);
-         //             console.log(this.aptInfo);
-         //             this.getAptInfo(5);
-         //             // alert(this.aptInfo.no + ' ' + this.aptInfo.dong + ' ' + this.aptInfo.aptName);
-         //             // console.log('Before : ', this.name, ' / out_name : ', out_name);
-         //             // this.name = 'Goo';
-         //             // out_name = 'Goo';
-         //             // console.log('After : ', this.name, ' / out_name : ', out_name);
-         //          })
-         //          .catch((err) => {
-         //             console.log('catch : ' + err);
-         //          });
-         //    };
-         // }
+      getCenter() {
+         console.log('중앙값 - ', this.center);
+         console.log('setCenter() ', this.map.getCenter());
       },
 
       removeMarkers() {
