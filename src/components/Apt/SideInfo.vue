@@ -29,7 +29,7 @@
             <div class="reviewFooter">
                <div class="footer-wrapper">
                   <div class="left">
-                     <i class="fas fa-pen-square fa-2x" onclick="document.getElementById('modal_join').style.display='block'"></i>
+                     <i class="fas fa-pen-square fa-2x" @click="reviewWindow"></i>
                   </div>
                   <div class="right">
                      <i class="far fa-laugh-squint fa-2x"></i>
@@ -45,16 +45,16 @@
       <div class="w3-container">
          <div id="modal_join" class="w3-modal">
             <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-               <form class="w3-container" action="/action_page.php">
+               <div class="w3-container">
                   <div class="w3-section">
                      <label><b>리뷰작성</b></label>
-                     <input class="w3-input w3-border w3-margin-bottom" type="text" name="content" required />
+                     <input class="w3-input w3-border w3-margin-bottom" type="text" name="content" v-model="content" required />
                      <label><b>평점</b></label>
-                     <input class="w3-input w3-border" type="number" placeholder="영문 숫자 포함 6자리 이상" name="rating" required />
-                     <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">가입</button>
+                     <input class="w3-input w3-border" type="number" placeholder="평점 입력" name="rating" v-model="rating" required />
+                     <button class="w3-button w3-block w3-green w3-section w3-padding" type="button" @click="registerReview">리뷰작성</button>
                      <input class="w3-button w3-yellow w3-margin-bottom" type="reset" style="float: right;" value="다시쓰기" />
                   </div>
-               </form>
+               </div>
 
                <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
                   <button onclick="document.getElementById('modal_join').style.display='none'" type="button" class="w3-button w3-red">취소</button>
@@ -68,6 +68,8 @@
 
 <script>
 import axios from 'axios'
+import router from '../../router/router'
+import { mapState } from 'vuex'
 
 export default {
    name: 'SideInfo',
@@ -118,8 +120,36 @@ export default {
       closeSideInfo() {
          this.$emit('closeFlag');
       },
+      registerReview() {
+         axios
+            .post('http://localhost/happyhouse/reviews', {
+              content: this.content,
+              rating: this.rating,
+              houseNo: this.sendData.no,
+              writerId: this.userInfo.id,
+            })
+            .then(()=> {
+              alert('리뷰가 추가되었습니다')
+              this.removeReviewWindow()
+            })
+            .catch(error=> {
+                alert('요청에 실패했습니다.')
+                console.log(error)
+            })
+      },
+      reviewWindow() {
+         if(this.userInfo == null) {
+            router.push({name: 'Login'});
+            return
+         }
+         document.getElementById('modal_join').style.display='block';
+      },
+      removeReviewWindow() {
+         document.getElementById('modal_join').style.display='none';
+      }
    },
    computed: {
+      ...mapState(['userInfo']),
       getReviews() {
          return this.aptReviews;
       },
