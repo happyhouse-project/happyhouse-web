@@ -1,16 +1,17 @@
 <template>
    <div class="info">
-      <button class="close"></button>
+      <button class="close" @click="closeSideInfo"></button>
       <b-card :title="getAptName" :img-src="images[parseInt(Math.random() * 5)]" img-alt="Image" img-top tag="article" style="max-width: 20rem;" class="mb-2">
-         <b-card-text>
+         <b-card-text class="card-wrapper">
             <span class="dong">{{ sendData.dong }}</span>
-            <span class="jibun">{{ sendData.jibun }}</span>
+            <span class="jibun" style="margin-left:5px">{{ sendData.jibun }}</span>
             <p style="font-size:10pt">{{ sendData.buildyear }}</p>
             <hr />
             <b>거래 내역</b><br />
             <div class="dealTable">
                <b-table striped hover :items="getDealTable" :fields="fields"></b-table>
             </div>
+            <hr />
             <div class="btn-group">
                <b-button class="mt-2" variant="outline-warning" style="">찜하기</b-button>
                <b-button class="mt-2" variant="outline-danger">닫기</b-button>
@@ -42,7 +43,7 @@ export default {
             },
             {
                key: 'deal',
-               label: '거래',
+               label: '거래가',
                sortable: true,
             },
             {
@@ -54,12 +55,13 @@ export default {
       };
    },
    methods: {
-      getData() {
-         console.log(this.sendData);
-      },
       currency(value) {
          var num = new Number(value);
          return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,');
+      },
+      closeSideInfo() {
+         console.log('gogo');
+         this.$emit('closeFlag');
       },
    },
    computed: {
@@ -80,7 +82,7 @@ export default {
             dealList.push({
                no: arr[i].no,
                deal: dealPrice,
-               area: arr[i].area,
+               area: arr[i].area.substr(0, 7),
             });
          }
 
@@ -137,7 +139,7 @@ export default {
    transform: rotate(45deg);
 }
 .info .close:hover {
-   transform: rotate(360deg);
+   transform: rotate(90deg);
 }
 .info .close:hover:before,
 .info .close:hover:after {
@@ -163,8 +165,13 @@ p.card-text {
    /* background-color: red; */
 }
 
+.card-wrapper span {
+   font-size: 10pt;
+}
+
+/* 거래내역 표시 */
 .dealTable {
-   height: 300px;
+   height: 150px;
    overflow: auto;
 }
 

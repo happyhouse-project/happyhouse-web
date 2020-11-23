@@ -1,7 +1,7 @@
 <template>
    <div class="mapArea">
       <apt-search></apt-search>
-      <side-info v-show="is_show" :sendData="aptInfo"></side-info>
+      <side-info v-show="is_show" :sendData="aptInfo" v-on:closeFlag="changeIsShow"></side-info>
       <div>
          <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
             <div class="px-3 py-2">
@@ -46,7 +46,7 @@ export default {
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
       libraries: [],
       mapObject: null,
-      is_show: false,
+      is_show: false, // sideInfo 닫기
       aptList: [],
       markers: [],
       customOverlays: [],
@@ -54,12 +54,11 @@ export default {
    }),
    filters: {},
    methods: {
-      changeName() {
-         this.name = 'Kim';
-         this.out_name = 'Jegal';
-         console.log(this.name);
+      // SideInfo에서 닫기 클릭시 종료
+      changeIsShow() {
+         // console.log('changeIsShow', this.is_show);
+         this.is_show = !this.is_show;
       },
-
       onLoad(map) {
          this.onSearchInit();
          // 지도의 현재 영역을 얻어옵니다
@@ -82,7 +81,7 @@ export default {
       },
 
       onMapEvent(event) {
-         console.log('onMapEvent : ' + event);
+         // console.log('onMapEvent : ' + event);
          var bounds = this.mapObject.getBounds();
 
          // 영역정보의 남서쪽 정보를 얻어옵니다
@@ -95,8 +94,6 @@ export default {
             from: swLatlng.toString(),
             to: neLatlng.toString(),
          };
-
-         console.log(latlng);
 
          //  console.log(latlng);
 
