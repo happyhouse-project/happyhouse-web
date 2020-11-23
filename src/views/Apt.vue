@@ -1,6 +1,6 @@
 <template>
    <div class="mapArea">
-      <apt-search></apt-search>
+      <apt-search @searchApt="searchAptByNo"></apt-search>
       <side-info v-show="is_show" :sendData="aptInfo"></side-info>
       <div>
          <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
@@ -20,9 +20,9 @@
          :mapTypeId="mapTypeId"
          :libraries="libraries"
          @load="onLoad"
+         @tilesloaded="onMapEvent('titlesloaded', $event)"
          @zoom_changed="onMapEvent('zoom_changed', $event)"
-         @dblclick="onMapEvent('dblclick', $event)"
-         @dragend="onMapEvent('dragend', $event)"
+         @dblclick="onMapEvent('dblclick', $event)"         
          @maptypeid_changed="onMapEvent('maptypeid_changed', $event)"
       >
       </vue-daum-map>
@@ -41,7 +41,7 @@ export default {
    components: { VueDaumMap, SideInfo, AptSearch },
    data: () => ({
       appKey: '5cc03bac0d3510a482068b50dd6e3612',
-      center: { lat: 37.5743822, lng: 126.9688505 },
+      center: { lat: '', lng: '' },
       level: 3,
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
       libraries: [],
@@ -51,13 +51,16 @@ export default {
       markers: [],
       customOverlays: [],
       aptInfo: [{ no: '' }, { dong: '' }, { aptName: '' }, { buildYear: '' }, { lat: '' }, { lng: '' }, { deal: '' }, { deals: [] }],
+      aptNo: '',
    }),
    filters: {},
+   created() {
+      this.initCenter();
+   },
    methods: {
-      changeName() {
-         this.name = 'Kim';
-         this.out_name = 'Jegal';
-         console.log(this.name);
+      initCenter() { // 중심위치 세팅
+         this.center.lat = 37.5743822
+         this.center.lng = 126.9688505
       },
 
       onLoad(map) {
@@ -70,14 +73,14 @@ export default {
          this.markers = [];
          this.customOverlays = [];
          // 기존 마커 초기화
-         this.onMapEvent('dragend');
+         // this.onMapEvent('dragend');
       },
 
       onSearchInit() {
-         var aptNo = this.$route.params.no;
-         console.log(aptNo);
-         if (aptNo !== undefined) {
-            this.getAptDetail(aptNo);
+         this.aptNo = this.$route.params.no;
+         console.log(this.aptNo);
+         if (this.aptNo !== undefined) {
+            this.getAptDetail(this.aptNo);
          }
       },
 
@@ -100,7 +103,7 @@ export default {
 
          //  console.log(latlng);
 
-         if (event == 'dragend' || event == 'zoom_changed') {
+         if (event == 'titlesloaded' || event == 'zoom_changed') {
             axios
                .post('http://localhost/happyhouse/house/aptDragSearch', latlng)
                .then((response) => {
@@ -129,7 +132,7 @@ export default {
 
          for (var idx in this.aptList) {
             // 미만의 데이터까지만
-            if (idx >= 30) break;
+            //if (idx >= 30) break;
 
             var apt = this.aptList[idx];
             var position = new kakao.maps.LatLng(apt.lat, apt.lng);
@@ -202,6 +205,7 @@ export default {
                this.aptInfo = response.data;
                this.center.lat = this.aptInfo.lat;
                this.center.lng = this.aptInfo.lng;
+               this.is_show = true;
             })
             .catch((err) => {
                console.log('catch : ' + err);
@@ -222,14 +226,14 @@ export default {
          this.customOverlays = [];
       },
 
-      selectApt() {
-         alert('dd');
+      searchAptByNo(no) {
+         this.getAptDetail(no)
       },
 
       currency(value) {
          var num = new Number(value);
          return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,');
-      },
+      },      
    },
 };
 </script>

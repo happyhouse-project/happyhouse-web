@@ -37,12 +37,8 @@ export default {
     },
     methods: {
         searchAptKeyword() {
-
-            var keyword = this.keyword
-            console.log("keyword" + keyword);
-
             axios
-            .get('http://localhost/happyhouse/house/search/apt/' + keyword)
+            .get('http://localhost/happyhouse/house/search/apt/' + this.keyword)
             .then(response=> {
                 this.loading = false,
                 this.aptList = response.data
