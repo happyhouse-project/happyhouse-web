@@ -88,6 +88,7 @@ h1 {
    min-height: 300px;
    height: 40vh;
 }
+
 .detail-content textarea {
    border-radius: 10px;
    min-height: 300px;
@@ -96,5 +97,10 @@ h1 {
    border: 0;
    font-size: 20pt;
    color: rgb(70, 70, 70);
+   resize: none;
+}
+
+.detail-content textarea:focus {
+   outline: none;
 }
 </style>

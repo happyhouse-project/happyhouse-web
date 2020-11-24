@@ -17,7 +17,7 @@
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
                <b-nav-item v-if="userInfo == null" class="login-tab"
-                  ><router-link to="/login"><b-icon icon="box-arrow-in-right"></b-icon>로그인</router-link></b-nav-item
+                  ><router-link to="/login"><b-icon icon="box-arrow-in-right"></b-icon> 로그인</router-link></b-nav-item
                >
                <b-nav-item v-if="userInfo != null" class="userInfo"
                   ><span class="username"
