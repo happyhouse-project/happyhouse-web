@@ -1,23 +1,29 @@
 <template>
    <div class="AptSearch">
-      <!-- <div class="filter-wrap">
-         <option value="dong">동</option>
-         <option value="deal">금액</option>
-      </div> -->
-      <div class="search-wrap">
+      <div class="searchInput shadow-lg bg-white">
+         <input type="text" placeholder="아파트명을 입력하세요" name="search" v-model="aptName" @keyup.enter="searchAptName" />
+         <i v-show="isShow" class="fas fa-times close-icon" @click="clear"></i>
+         <button type="button" @click="searchAptName">
+            <i class="fa fa-search" style="color:white"></i>
+         </button>
+      </div>
+
+      <!-- <div class="search-wrap">
          <div class="input-field">
-            <input id="search" type="text" placeholder="입력하세요" v-model="aptName" />
+            <input id="search" type="text" placeholder="입력하세요" v-model="aptName" @keyup.enter="searchAptName"/>
          </div>
          <button class="btn-search" type="button" @click="searchAptName">
             <i class="fas fa-search-location"></i>
          </button>
-      </div>
-      <!-- select -->
-      <div v-if="selectedBox" class="searchResult">
+      </div> -->
+
+      <div v-show="isShow" class="searchResult shadow-lg">
          <div v-for="apt in aptList" :key="apt.no">
             <div class="searchResult-box" @click="searchApt(apt.no)">
-               <span>{{ apt.aptName }}</span>
-               <span>{{ apt.dong }}</span>
+               <div class="result-wrapper">
+                  <p class="result-name">{{ apt.aptName }}</p>
+                  <p class="result-dong">{{ apt.dong }}</p>
+               </div>
             </div>
          </div>
       </div>
@@ -34,23 +40,42 @@ export default {
          aptName: '',
          aptList: [],
          selectedBox: false,
+         isShow: false,
       };
    },
    methods: {
       searchAptName() {
+         if (this.aptName == '') {
+            alert('검색어를 입력하세요');
+            return;
+         }
+
          axios
             .get('http://localhost/happyhouse/house/search/apt/' + this.aptName)
             .then((response) => {
                (this.loading = false), (this.aptList = response.data);
                this.selectedBox = true;
+
+               if (this.aptList.length == 0) {
+                  this.aptList.push({
+                     aptName: '검색결과가 없습니다.',
+                  });
+               }
             })
             .catch((error) => {
                alert('요청에 실패했습니다.');
                console.log(error);
             });
+         this.isShow = true;
       },
       searchApt(no) {
          this.$emit('searchApt', no);
+         this.isShow = false;
+         this.aptName = '';
+      },
+      clear() {
+         this.aptName = '';
+         this.isShow = false;
       },
    },
    updated() {
@@ -70,74 +95,97 @@ export default {
    margin-left: 10px;
    left: 0;
    height: auto;
-   width: 20em;
+   width: 300px;
    z-index: 8;
-   background-color: white;
-   border-radius: 5px;
-   border: 1px solid rgba(0, 0, 0, 0.15);
-   box-shadow: 0px 4px 10px 0px #00000021;
+   /* background-color: white; */
+   /* border-radius: 5px; */
+   /* border: 1px solid rgba(0, 0, 0, 0.15); */
+   /* box-shadow: 0px 4px 10px 0px #00000021; */
    /* border: 1px solid rgb(211, 211, 211); */
 }
 
-.filter-wrap {
-   display: flex;
-   height: 30px;
+.searchInput {
+   width: 300px;
 }
 
-.search-wrap {
-   display: flex;
-   width: 100%;
-   height: 40px;
-   /* background-color: red; */
+.AptSearch input[type='text'] {
+   /* margin-top: 30px; */
+   width: 200px;
+   height: 50px;
+   padding: 10px;
+   display: inline;
+   border: 0px;
+   margin-left: 13px;
 }
 
-.input-field {
-   height: 100%;
-   background-color: rgb(242, 242, 242);
-   border: 0;
-   display: block;
-   width: 100%;
-   padding: 5px 32px;
-   font-size: 16px;
-   color: #555;
+/* 클릭시 테두리 지우기 */
+.AptSearch input:focus {
+   outline: none;
 }
 
-.input-field input {
-   background-color: rgb(242, 242, 242);
-   width: 100%;
-   height: 100%;
+.close-icon {
+   color: rgb(186, 186, 186);
+   margin-right: 9.5px;
+   display: inline;
+}
+
+.close-icon :hover {
+   color: rgb(138, 136, 136);
+}
+
+.AptSearch button {
+   float: right;
+   width: 60px;
+   height: 50px;
+   background-color: #1075dc;
    border: none;
-}
-
-.btn-search {
-   height: 100%;
-   width: 50px;
-   padding: 6px;
-   white-space: nowrap;
-   color: #fff;
-   border: 0;
-   cursor: pointer;
-   background: #63c76a;
-   transition: all 0.2s ease-out, color 0.2s ease-out;
 }
 
 .searchResult {
    overflow-y: auto;
    min-height: 40px;
    max-height: 240px;
-   width: 100%;
+   width: 240px;
    display: inline-block;
-   margin-top: 2px;
+   /* margin-top: 2px; */
+   margin-right: 100px;
 }
 
 .searchResult-box {
-   height: 40px;
+   padding-top: 8px;
+   height: 60px;
    z-index: 100;
    background-color: white;
-   border: 1px solid black;
+   /* border: 1px solid black; */
+   border: 0;
    width: 100%;
    position: relative;
-   display: inline-block;
+   /* display: flex; */
+   /* flex-direction: column; */
+   /* justify-content: flex-start; */
+   /* float: left; */
    cursor: pointer;
+   border-bottom: 1px solid rgb(227, 227, 227);
+}
+.result-wrapper {
+   margin-top: 2px;
+   margin-left: 25px;
+   float: left;
+}
+
+.searchResult :hover {
+   background-color: rgb(232, 232, 232) !important;
+}
+
+.result-dong {
+   float: left;
+   font-size: 9pt;
+   color: rgb(96, 96, 96);
+}
+
+.result-name {
+   font-size: 11pt;
+   font-weight: 600;
+   margin-bottom: 0;
 }
 </style>

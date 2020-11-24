@@ -1,12 +1,13 @@
 <template>
-   <div class="search ">
+   <div class="search">
       <div class="searchInput shadow-lg bg-white">
          <input type="text" placeholder="원하시는 아파트명, 주택명을 입력해주세요" name="search" v-model="keyword" @keyup.enter="searchAptKeyword" />
+         <i v-show="isShow" class="fas fa-times close-icon" @click="clear"></i>
          <button type="button" @click="searchAptKeyword">
             <i class="fa fa-search"></i>
          </button>
       </div>
-      <!-- select -->
+
       <div v-show="isShow" class="searchResult shadow-lg">
          <div v-for="apt in aptList" :key="apt.no">
             <div class="searchResult-box" @click="searchApt(apt.no)">
@@ -14,13 +15,6 @@
                   <p class="result-name">{{ apt.aptName }}</p>
                   <p class="result-dong">{{ apt.dong }}</p>
                </div>
-
-               <!-- <div class="result-name">
-                  <span>{{ apt.aptName }}</span>
-               </div>
-               <div class="result-dong">
-                  <span>{{ apt.dong }}</span>
-               </div> -->
             </div>
          </div>
       </div>
@@ -42,11 +36,23 @@ export default {
    },
    methods: {
       searchAptKeyword() {
+         if (this.keyword == '') {
+            alert('검색어를 입력하세요');
+            return;
+         }
+
          axios
             .get('http://localhost/happyhouse/house/search/apt/' + this.keyword)
             .then((response) => {
                (this.loading = false), (this.aptList = response.data);
-               console.log(this.aptList);
+               // console.log(this.aptList);
+
+               if (this.aptList.length == 0) {
+                  this.aptList.push({
+                     no: -1,
+                     aptName: '검색결과가 없습니다.',
+                  });
+               }
             })
             .catch((error) => {
                alert('요청에 실패했습니다.');
@@ -57,7 +63,16 @@ export default {
       },
 
       searchApt(no) {
+         if (no == -1) {
+            this.clear();
+            return;
+         }
          router.push({ name: 'Apt', params: { no: no } });
+      },
+
+      clear() {
+         this.keyword = '';
+         this.isShow = false;
       },
    },
 };
@@ -79,18 +94,39 @@ export default {
 
 .searchInput {
    width: 500px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
 }
 
 .search input[type='text'] {
+   display: inline;
    /* margin-top: 30px; */
    width: 80%;
    height: 50px;
    padding: 10px;
    display: inline;
    border: 0px;
+   margin-left: 13px;
+}
+
+/* 클릭시 테두리 지우기 */
+.search input:focus {
+   outline: none;
+}
+
+.close-icon {
+   color: rgb(186, 186, 186);
+   margin-right: 9.5px;
+   display: inline;
+}
+
+.close-icon :hover {
+   color: rgb(138, 136, 136);
 }
 
 .search button {
+   float: right;
    width: 70px;
    height: 48px;
    background-color: white;
