@@ -28,6 +28,7 @@
    /* height: 1000px !important; */
    /* margin: -100px 0 -50px; */
    width: auto !important;
+   margin-top: 77px;
    /* flex: 1 !important; */
 }
 </style>

@@ -6,13 +6,13 @@
             <a href="#" target="_blank">위치기반 서비스 이용약관</a>
          </p>
          <p>
-            상호 : (주)happyhouse-ssafy | 주소 : 서울특별시 강남구 역삼동 테헤란로 212 멀티캠퍼스
+            상호 : (주)내집마련 | 주소 : 서울특별시 강남구 역삼동 테헤란로 212 멀티캠퍼스
             <br />
             개발자 : 김한솔, 이주상 <span style="margin-left:20px; color:grey;">Copyright ⓒ HAPPYHOUSE-SSAFY. All Rights Reserved.</span>
          </p>
       </div>
       <div class="footer-right">
-         <img class="logo-img" alt="logo" src="../assets/images/happyhouse_logo.png" />
+         <img class="logo-img" alt="logo" src="../assets/images/logos/full_logo.png" />
       </div>
    </footer>
 </template>
@@ -27,7 +27,7 @@ footer {
    display: flex;
    justify-content: space-between;
    bottom: 0;
-   position: fixed;
+   /* position: fixed; */
    /* z-index: 3; */
    font-size: 6pt;
    color: black;

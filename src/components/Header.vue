@@ -1,9 +1,9 @@
 <template>
-   <header>
+   <header class="shadow bg-white">
       <b-navbar toggleable="lg" id="navbar">
          <b-navbar-brand href="/">
             <div class="logo">
-               <router-link to="/"><img class="logo-img" alt="logo" src="../assets/images/happyhouse_logo.png"/></router-link>
+               <router-link to="/"><img class="logo-img" alt="logo" src="../assets/images/logos/full_logo.png"/></router-link>
             </div>
          </b-navbar-brand>
 
@@ -12,7 +12,8 @@
          <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="navbar-menu">
                <b-nav-item><router-link to="/Apt">아파트</router-link></b-nav-item>
-               <b-nav-item><router-link to="#">연립 다세대 주택</router-link></b-nav-item>
+               <b-nav-item><router-link to="#">News</router-link></b-nav-item>
+               <b-nav-item><router-link to="#">Notice</router-link></b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
                <b-nav-item v-if="userInfo == null" class="login-tab"><router-link to="/login">로그인</router-link></b-nav-item>
@@ -40,14 +41,18 @@ export default {
 
 <style scoped>
 header {
+   font-family: 'Do Hyeon', sans-serif;
    min-height: 30px;
    font-size: 16px;
-   font-weight: bold;
    width: 100%;
-   display: flex;
-   position: relative;
-   /* align-items: center; */
+   position: fixed;
+   top: 0;
+   left: 0;
+   /* display: flex;
+   position: relative; */
    border-bottom: solid 1.5px rgb(198, 198, 198);
+   background: white;
+   z-index: 10;
 }
 
 #navbar {
@@ -61,12 +66,11 @@ header {
 
 .logo {
    float: left;
-   padding: 10px;
+   padding: 10px 10px 3px 10px;
 }
 
 .logo-img {
-   width: 40px;
-   height: 40px;
+   height: 45px;
 }
 
 a {
@@ -74,7 +78,7 @@ a {
 }
 
 a:hover {
-   color: rgb(82, 111, 240);
+   color: #1075dc;
    text-decoration: none;
 }
 

@@ -2,7 +2,7 @@
    <div class="container-fluid p-0">
       <div class="main">
          <!--1. carousel 들어가는 div -->
-         <div>
+         <div class="carousel-wrapper">
             <b-carousel id="carousel-fade">
                <b-carousel-slide img-src="http://localhost/happyhouse/static/images/b.jpg"></b-carousel-slide>
                <b-carousel-slide img-src="http://localhost/happyhouse/static/images/bg-image2.png"></b-carousel-slide>
@@ -10,7 +10,7 @@
             </b-carousel>
          </div>
          <home-search></home-search>
-         <div class="container">
+         <div class="container mt-4">
             <div class="row">
                <div class="col">
                   <div class="intro">
@@ -40,7 +40,7 @@
 <script>
 import HomeNews from '../components/Home/HomeNews.vue';
 import HomeNotice from '../components/Home/HomeNotice.vue';
-import HomeSearch from '../components/Home/HomeSearch.vue'
+import HomeSearch from '../components/Home/HomeSearch.vue';
 
 export default {
    name: 'Home',
@@ -55,6 +55,10 @@ export default {
 <style scoped>
 body {
    background-color: #f9f9f9;
+}
+
+.carousel-wrapper {
+   height: 400px;
 }
 
 .main {
