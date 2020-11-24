@@ -61,8 +61,8 @@
                         <div class="slider-num">{{ rating }}</div>
                      </div>
                      <div class="container-fluid d-flex justify-content-center">
-                        <input class="btn btn-outline-warning mr-2" type="reset" value="reset" />
-                        <button class="btn btn-outline-success w-50" type="submit" @click="registerReview">write</button>
+                        <button class="btn btn-outline-warning mr-2" type="button" @click="clear">reset</button>
+                        <button class="btn btn-outline-success w-50" type="button" @click="registerReview">write</button>
                         <button @click="removeReviewWindow" type="button" class="btn btn-outline-danger ml-md-2">cancel</button>
                      </div>
                   </div>
@@ -134,7 +134,8 @@ export default {
             .then(() => {
                alert('리뷰가 추가되었습니다');
                this.removeReviewWindow();
-               this.$emit('updateReview', this.sendData.no) // 부모 컴포넌트에게 리뷰 바뀌었다고 이벤트 전달
+               this.$emit('updateReview', this.sendData.no); // 부모 컴포넌트에게 리뷰 바뀌었다고 이벤트 전달
+               this.clear();
             })
             .catch((error) => {
                alert('요청에 실패했습니다.');
@@ -151,6 +152,10 @@ export default {
       },
       removeReviewWindow() {
          document.getElementById('modal_write').style.display = 'none'; // 팝업창 제거
+      },
+      clear() {
+         this.content = '';
+         this.rating = 5;
       },
    },
    computed: {
