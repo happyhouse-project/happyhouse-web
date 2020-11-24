@@ -62,7 +62,7 @@ export default {
 }
 
 .notice-add-btn {
-   margin-left: 60%;
+   margin-left: 58%;
 }
 
 .notice-link {

@@ -65,7 +65,6 @@ export default new Vuex.Store({
     doLogout({ commit }) {
       commit("logout")
       alert("정상적으로 로그아웃 되었습니다.")
-      if(this.$route.path != "/")
       router.push({ name: "Home" })
     },
 
@@ -90,7 +89,8 @@ export default new Vuex.Store({
                 name: response.data.name,
                 email: response.data.email,
                 phone: response.data.phone,
-                address: response.data.address
+                address: response.data.address,
+                auth: response.data.auth
               }
               commit("loginSuccess", userInfo)
               if(isFirst === true) {

@@ -2,7 +2,7 @@
    <div class="main">
       <div class="infolist">
          <h3>공지사항</h3>
-         <button class="addBtn btn-right btn-bottom" type="button" @click="gotoNoticeRegister">공지 추가하기</button>
+         <button v-if="userInfo != null && userInfo.auth == 2" class="addBtn btn-right btn-bottom" type="button" @click="gotoNoticeRegister">공지 추가하기</button>
          <hr class="hr-main" />
          <div class="notice" v-for="(notice, index) in noticeList" :key="index">
             <p @click="gotoNoticeDetail(notice.id)">{{ notice.title }}</p>
@@ -14,6 +14,7 @@
 <script>
 import axios from 'axios';
 import router from '../router/router';
+import {mapState} from 'vuex';
 
 export default {
    data() {
@@ -47,6 +48,9 @@ export default {
       scrollTop() {
          window.scrollTo(0, top);
       },
+   },
+   computed: {
+      ...mapState(['userInfo']),
    },
 };
 </script>

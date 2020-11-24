@@ -25,7 +25,7 @@
                      >님 환영합니다</span
                   ></b-nav-item
                >
-               <b-nav-item v-if="userInfo != null" class="login-tab"> <b-icon icon="box-arrow-right" aria-hidden="true" @click="$store.dispatch('doLogout')"> </b-icon> 로그아웃 </b-nav-item>
+               <b-nav-item v-if="userInfo != null" class="login-tab" @click="$store.dispatch('doLogout')"> <b-icon icon="box-arrow-right" aria-hidden="true"> </b-icon> 로그아웃 </b-nav-item>
             </b-navbar-nav>
          </b-collapse>
       </b-navbar>
