@@ -30,7 +30,7 @@
             <div class="reviewFooter">
                <div class="footer-wrapper">
                   <div class="left">
-                     <i class="fas fa-pen-square fa-2x" onclick="document.getElementById('modal_write').style.display='block'"></i>
+                     <i class="fas fa-pen-square fa-2x" @click="reviewWindow"></i>
                   </div>
                   <div class="right">
                      <i class="far fa-laugh-squint fa-2x"></i>
@@ -62,7 +62,7 @@
                      </div>
                      <div class="container-fluid d-flex justify-content-center">
                         <input class="btn btn-outline-warning mr-2" type="reset" value="reset" />
-                        <button class="btn btn-outline-success w-50" type="submit">write</button>
+                        <button class="btn btn-outline-success w-50" type="submit" @click="registerReview">write</button>
                         <button onclick="document.getElementById('modal_write').style.display='none'" type="button" class="btn btn-outline-danger ml-md-2">cancel</button>
                      </div>
                   </div>
@@ -75,6 +75,8 @@
 
 <script>
 import axios from 'axios';
+import router from '../../router/router';
+import { mapState } from 'vuex';
 
 export default {
    name: 'SideInfo',
@@ -122,8 +124,36 @@ export default {
       closeSideInfo() {
          this.$emit('closeFlag');
       },
+      registerReview() {
+         axios
+            .post('http://localhost/happyhouse/reviews', {
+               content: this.content,
+               rating: this.rating,
+               houseNo: this.sendData.no,
+               writerId: this.userInfo.id,
+            })
+            .then(() => {
+               alert('리뷰가 추가되었습니다');
+               this.removeReviewWindow();
+            })
+            .catch((error) => {
+               alert('요청에 실패했습니다.');
+               console.log(error);
+            });
+      },
+      reviewWindow() {
+         if (this.userInfo == null) {
+            router.push({ name: 'Login' });
+            return;
+         }
+         document.getElementById('modal_write').style.display = 'block';
+      },
+      removeReviewWindow() {
+         document.getElementById('modal_write').style.display = 'none';
+      },
    },
    computed: {
+      ...mapState(['userInfo']),
       getReviews() {
          return this.aptReviews;
       },
