@@ -1,7 +1,7 @@
 <template>
    <div class="container">
       <div class="detail-warpper shadow-lg">
-         <div class="detail-font detail-title mx-auto text-center">
+         <div class="detail-font pt-3 detail-title mx-auto text-center">
             <h1>{{ notice.title }}</h1>
          </div>
          <div class="detail-info my-3 text-center">
@@ -93,7 +93,7 @@ h1 {
    border-radius: 10px;
    min-height: 300px;
    height: 40vh;
-   padding: 10px 20px 30px 20px;
+   padding: 20px 30px 40px 30px;
    border: 0;
    font-size: 20pt;
    color: rgb(70, 70, 70);
