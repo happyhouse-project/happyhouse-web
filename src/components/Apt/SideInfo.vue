@@ -1,7 +1,7 @@
 <template>
    <div class="info">
       <button class="close" @click="closeSideInfo"></button>
-      <b-card :title="getAptName" :img-src="images[parseInt(Math.random() * 5)]" img-alt="Image" img-top tag="article" style="max-width: 20rem;" class="mb-2">
+      <b-card :title="getAptName" :img-src="getImage" img-alt="Image" img-top tag="article" style="max-width: 20rem;" class="mb-2">
          <b-card-text class="card-wrapper">
             <b-button size="sm" pill variant="outline-secondary" disabled="disabled" style="font-size:8pt;"> {{ sendData.dong }}&nbsp;{{ sendData.jibun }} </b-button>
             <b-button size="sm" pill variant="outline-secondary" disabled="disabled" style="margin-left:4px; font-size:8pt">
@@ -85,14 +85,7 @@ export default {
       return {
          content: '',
          rating: 5,
-         images: [
-            'http://localhost/happyhouse/static/images/apt/1.jpg',
-            'http://localhost/happyhouse/static/images/apt/2.jpg',
-            'http://localhost/happyhouse/static/images/apt/3.jpg',
-            'http://localhost/happyhouse/static/images/apt/4.jpg',
-            'http://localhost/happyhouse/static/images/apt/5.jpg',
-         ],
-
+         image: "",
          fields: [
             {
                key: 'no',
@@ -165,6 +158,9 @@ export default {
       },
       getAptName() {
          return this.sendData.aptName;
+      },
+      getImage() {
+         return "http://localhost/happyhouse/static/images/apt/"+this.sendData.img+".jpg"
       },
       getDealTable() {
          var arr = this.sendData.deals;
