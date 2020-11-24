@@ -1,6 +1,12 @@
 <template>
    <div class="AptSearch">
       <div class="searchInput shadow-lg bg-white">
+         <div class="mapType-wrappter">
+            <button @click="callMapType('normal')" style="font-size:5pt">보통지도</button>
+            <button @click="callMapType('hybrid')" style="font-size:5pt">스카이뷰</button>
+            <button @click="callMapType('terrain')" style="font-size:5pt">지형정보</button>
+            <button @click="callMapType('use_district')" style="font-size:5pt">지적편집도</button>
+         </div>
          <input type="text" placeholder="아파트명을 입력하세요" name="search" v-model="aptName" @keyup.enter="searchAptName" />
          <i v-show="isShow" class="fas fa-times close-icon" @click="clear"></i>
          <button type="button" @click="searchAptName">
@@ -77,6 +83,11 @@ export default {
          this.aptName = '';
          this.isShow = false;
       },
+
+      //지도 타입 변경 부모 호출
+      callMapType(type) {
+         this.$emit('changeMapFlag', type);
+      },
    },
    updated() {
       // 입력창을 지우면 select box가 사라짐
@@ -106,6 +117,7 @@ export default {
 
 .searchInput {
    width: 300px;
+   /* height: 100px; */
 }
 
 .AptSearch input[type='text'] {
@@ -133,7 +145,7 @@ export default {
    color: rgb(138, 136, 136);
 }
 
-.AptSearch button {
+.searchInput > button {
    float: right;
    width: 60px;
    height: 50px;

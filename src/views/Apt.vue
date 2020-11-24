@@ -1,9 +1,7 @@
 <template>
    <div class="mapArea">
-      <apt-search @searchApt="searchAptByNo"></apt-search>
-      <side-info v-show="is_show" :sendData="aptInfo" 
-      :aptReviews="reviews" v-on:closeFlag="changeIsShow"
-      @updateReview="updateReviews"></side-info>
+      <apt-search @searchApt="searchAptByNo" @changeMapFlag="changeMapType"></apt-search>
+      <side-info v-show="is_show" :sendData="aptInfo" :aptReviews="reviews" v-on:closeFlag="changeIsShow" @updateReview="updateReviews"></side-info>
       <div>
          <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
             <div class="px-3 py-2">
@@ -197,7 +195,7 @@ export default {
                //    .catch((err) => {
                //       console.log('catch : ' + err);
                //    });
-               this.getAptDetail(no)
+               this.getAptDetail(no);
             });
          });
       },
@@ -255,9 +253,44 @@ export default {
             });
       },
 
-      updateReviews(no) { // 리뷰 입력시 업데이트 메서드 호출
-         this.getReviews(no)
-      }
+      updateReviews(no) {
+         // 리뷰 입력시 업데이트 메서드 호출
+         this.getReviews(no);
+      },
+
+      //지도 타입 변경
+      changeMapType(type) {
+         /*
+         NORMAL   1
+         HYBRID   3
+         TERRAIN  7
+         USE_DISTRICT   10
+         */
+
+         // 오버레이로 계속 쌓이기 때문에, 기존 맵타입 지우고 받기
+         this.mapObject.removeOverlayMapTypeId(this.mapTypeId);
+
+         var changeMaptype;
+         // maptype에 따라 지도에 추가할 지도타입을 결정합니다
+         if (type === 'normal') {
+            this.mapObject.addOverlayMapTypeId(kakao.maps.MapTypeId.NORMAL);
+            changeMaptype = 1;
+         } else if (type === 'hybrid') {
+            this.mapObject.addOverlayMapTypeId(kakao.maps.MapTypeId.HYBRID);
+            changeMaptype = 3;
+         } else if (type === 'terrain') {
+            // 지형정보 지도타입
+            this.mapObject.addOverlayMapTypeId(kakao.maps.MapTypeId.TERRAIN);
+            changeMaptype = 7;
+         } else if (type === 'use_district') {
+            // 지적편집도 지도타입
+            this.mapObject.addOverlayMapTypeId(kakao.maps.MapTypeId.USE_DISTRICT);
+            changeMaptype = 10;
+         }
+
+         // 지도에 추가된 타입정보를 갱신합니다
+         this.mapTypeId = changeMaptype;
+      },
    },
 };
 </script>
