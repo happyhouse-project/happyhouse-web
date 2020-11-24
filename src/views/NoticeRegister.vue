@@ -34,6 +34,16 @@ export default {
    },
    methods: {
       registerNotice() {
+         if (this.title == '') {
+            alert('제목을 입력하세요');
+            return;
+         }
+
+         // 제목만 있을 경우, 내용 없음 default
+         if (this.content == '') {
+            this.content = '내용 없음';
+         }
+
          axios
             .post('http://localhost/happyhouse/notices', {
                title: this.title,
