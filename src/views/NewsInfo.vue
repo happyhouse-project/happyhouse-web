@@ -6,13 +6,15 @@
       <div v-for="(news, index) in newsList" :key="index">
         <p>
             <!-- {news.title}###${news.link}###${news.category} -->
+          <span class="agency">{{news.agency}}</span>
           <a :href="news.link" target="_blank">{{ news.title }}</a>
-          <input type="checkbox" name="newsInfo" v-model="checkNews" :value="news.title+'###'+news.link+'###'+news.title">
+          <span class="date">{{news.registerDate}}</span>
+          <input type="checkbox" name="newsInfo" v-model="checkNews" :value="news.title+'###'+news.link+'###'+news.title+'###'+news.agency">        
         </p>
         <hr>
       </div>
     </div>
-    <div>
+    <div class="add-btn">
       <button type="button" class="btn btn-success" @click="addNews()">추가하기</button>
     </div>
     <div class="navbar">
@@ -157,5 +159,13 @@ input[type='checkbox'] {
 
 .page-link {
     cursor: pointer;
+}
+
+.agency {
+  font-size: 12px;
+}
+
+.add-btn{
+  text-align: right;
 }
 </style>
