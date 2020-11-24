@@ -1,71 +1,108 @@
 <template>
-  <div class="main">
-    <div class="infolist">
-      <h3>공지사항 등록</h3>
-      <hr class="hr-main" />
-      <center>
-        <table>
-        <tr>
-            <td><h1>새글쓰기</h1></td>
-        </tr>
-        <tr>
-            <td>제목 : <input type="input" name="title" size="42" v-model="title"/></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-            내용 : <textarea rows="10" cols="50" name="content" v-model="content"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
-            <center>
-                <button class="btn-success" type="button" @click="registerNotice()">작성</button>&nbsp;&nbsp;<button class="btn-gray" type="button">취소</button>
-            </center>
-            </td>
-        </tr>
-        </table>
-        <p><router-link to="/notice">리스트</router-link></p>
-      </center>
-    </div>
-  </div>
+   <div class="container">
+      <div class="reg-warpper shadow-lg">
+         <div class="reg-font pt-3 mx-auto text-center">
+            <h1></h1>
+         </div>
+         <div class="reg-title my-3 text-center shadow-lg bg-white">
+            <input name="title" v-model="title" type="text" class="w-100" placeholder="제목을 입력하세요" />
+         </div>
+         <div class="reg-content shadow-lg bg-white">
+            <textarea name="content" v-model="content" class="w-100" rows="15" placeholder="내용을 입력하세요"></textarea>
+         </div>
+         <div class="w-100 text-center mt-4">
+            <b-button type="reset" size="md" pill variant="outline-warning" @click="clear"><span style="padding: 0px 10px">clear</span></b-button>
+            <b-button size="md" pill variant="outline-primary" @click="registerNotice()" style="margin:0px 10px"><span style="padding: 0px 30px">register</span></b-button>
+            <router-link to="/notice"
+               ><b-button type="reset" size="md" pill variant="outline-secondary"><span style="padding: 0px 10px">go back</span></b-button></router-link
+            >
+         </div>
+      </div>
+   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import router from '../router/router'
+import axios from 'axios';
+import router from '../router/router';
 
 export default {
-    data() {
+   data() {
       return {
-        title: '',
-        content: '',
-      }
-    },
-    methods: {
-        registerNotice() {
-            axios
+         title: '',
+         content: '',
+      };
+   },
+   methods: {
+      registerNotice() {
+         axios
             .post('http://localhost/happyhouse/notices', {
-              title: this.title,
-              content: this.content
+               title: this.title,
+               content: this.content,
             })
-            .then(()=> {
-              alert('공지사항이 추가되었습니다')
-              router.push({name: "Notice"});
+            .then(() => {
+               alert('공지사항이 추가되었습니다');
+               router.push({ name: 'Notice' });
             })
-            .catch(error=> {
-                alert('요청에 실패했습니다.')
-                console.log(error)
-            })
-        },        
-    },
-}
+            .catch((error) => {
+               alert('요청에 실패했습니다.');
+               console.log(error);
+            });
+      },
+
+      clear() {
+         this.title = '';
+         this.content = '';
+      },
+   },
+};
 </script>
 
 <style scoped>
-.main {
-  background-color: white;
-  min-height: 1800px;
-  padding-left:15%;
-  padding-right:15%;
+h1 {
+   font-family: 'Do Hyeon' !important;
+}
+.container {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   font-family: 'Do Hyeon' !important;
+}
+.reg-warpper {
+   padding: 10px 10px 30px 10px;
+   border-radius: 20px;
+   background-color: white;
+}
+
+.reg-content {
+   border-radius: 10px;
+   min-height: 300px;
+   height: 40vh;
+}
+
+.reg-content textarea {
+   border-radius: 10px;
+   min-height: 300px;
+   height: 40vh;
+   padding: 20px 30px 40px 30px;
+   border: 0;
+   font-size: 16pt;
+   color: rgb(70, 70, 70);
+   resize: none;
+}
+.reg-title {
+   border-radius: 10px;
+}
+.reg-title input {
+   border-radius: 10px;
+   font-size: 16pt;
+   color: #1075dc;
+   border: none;
+   padding: 4px 30px;
+}
+
+.reg-content textarea:focus,
+.reg-title input:focus {
+   outline: none;
 }
 </style>
