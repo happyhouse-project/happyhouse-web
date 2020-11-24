@@ -27,7 +27,7 @@ footer {
    display: flex;
    justify-content: space-between;
    bottom: 0;
-   /* position: fixed; */
+   position: fixed;
    /* z-index: 3; */
    font-size: 6pt;
    color: black;

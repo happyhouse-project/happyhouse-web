@@ -26,8 +26,10 @@
 .rootMain {
    /* min-height: 400px !important; */
    /* height: 1000px !important; */
+   height: 100vh !important;
+   /* overflow-y: hidden; */
    /* margin: -100px 0 -50px; */
-   width: auto !important;
+   /* width: auto !important; */
    margin-top: 77px;
    /* flex: 1 !important; */
 }

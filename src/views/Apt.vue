@@ -22,7 +22,7 @@
          @load="onLoad"
          @tilesloaded="onMapEvent('titlesloaded', $event)"
          @zoom_changed="onMapEvent('zoom_changed', $event)"
-         @dblclick="onMapEvent('dblclick', $event)"         
+         @dblclick="onMapEvent('dblclick', $event)"
          @maptypeid_changed="onMapEvent('maptypeid_changed', $event)"
       >
       </vue-daum-map>
@@ -59,9 +59,10 @@ export default {
       this.initCenter();
    },
    methods: {
-      initCenter() { // 중심위치 세팅
-         this.center.lat = 37.5743822
-         this.center.lng = 126.9688505
+      initCenter() {
+         // 중심위치 세팅
+         this.center.lat = 37.5743822;
+         this.center.lng = 126.9688505;
       },
       // SideInfo에서 닫기 클릭시 종료
       changeIsShow() {
@@ -230,7 +231,7 @@ export default {
       },
 
       searchAptByNo(no) {
-         this.getAptDetail(no)
+         this.getAptDetail(no);
       },
 
       currency(value) {
@@ -240,16 +241,16 @@ export default {
 
       getReviews(no) {
          axios
-         .get('http://localhost/happyhouse/reviews/' + no)
-         .then((response) => {
-            //this.loading = false
-            this.reviews = response.data
-            console.log(this.reviews);
-         })
-         .catch((error) => {
-            alert('요청에 실패했습니다.');
-            console.log(error);
-         });
+            .get('http://localhost/happyhouse/reviews/' + no)
+            .then((response) => {
+               //this.loading = false
+               this.reviews = response.data;
+               console.log(this.reviews);
+            })
+            .catch((error) => {
+               alert('요청에 실패했습니다.');
+               console.log(error);
+            });
       },
    },
 };
@@ -259,13 +260,13 @@ export default {
 #map {
    display: inline-block;
    width: 100%;
-   height: 100%;
+   height: 100vh;
 }
 
 .mapArea {
    position: relative;
    width: 100%;
-   height: 90vh;
+   height: 100vh;
    /* padding: 100px 0 130px 0; */
 }
 

@@ -16,13 +16,16 @@
                <b-nav-item><router-link to="/notice">Notice</router-link></b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
-               <b-nav-item v-if="userInfo == null" class="login-tab"><router-link to="/login">로그인</router-link></b-nav-item>
-               <b-nav-item v-if="userInfo != null" class="userInfo"
-                  ><span class="username">{{ userInfo.name }}님 환영합니다</span></b-nav-item
+               <b-nav-item v-if="userInfo == null" class="login-tab"
+                  ><router-link to="/login"><b-icon icon="box-arrow-in-right"></b-icon>로그인</router-link></b-nav-item
                >
-               <b-nav-item v-if="userInfo != null" class="login-tab">
-                  <b-button variant="outline-primary" @click="$store.dispatch('doLogout')"> <b-icon icon="power" aria-hidden="true"></b-icon>로그아웃 </b-button>
-               </b-nav-item>
+               <b-nav-item v-if="userInfo != null" class="userInfo"
+                  ><span class="username"
+                     ><span>{{ userInfo.name }}</span
+                     >님 환영합니다</span
+                  ></b-nav-item
+               >
+               <b-nav-item v-if="userInfo != null" class="login-tab"> <b-icon icon="box-arrow-right" aria-hidden="true" @click="$store.dispatch('doLogout')"> </b-icon> 로그아웃 </b-nav-item>
             </b-navbar-nav>
          </b-collapse>
       </b-navbar>
@@ -83,8 +86,9 @@ a:hover {
 }
 
 .login-tab {
-   font-size: 16px;
+   font-size: 14px;
    font-weight: normal;
+   margin-top: 6px;
 }
 
 .userInfo {
@@ -95,5 +99,9 @@ a:hover {
 .username {
    color: black;
    font-weight: normal;
+}
+
+.username span {
+   color: #1075dc;
 }
 </style>
