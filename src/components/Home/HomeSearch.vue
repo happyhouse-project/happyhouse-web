@@ -66,7 +66,7 @@ export default {
 <style scoped>
 .search {
    position: absolute;
-   top: 50%;
+   top: 420px;
    left: 50%;
    height: 50px !important;
    text-align: center;

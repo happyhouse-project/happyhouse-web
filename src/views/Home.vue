@@ -3,10 +3,9 @@
       <div class="main">
          <!--1. carousel 들어가는 div -->
          <div class="carousel-wrapper">
-            <b-carousel id="carousel-fade">
-               <b-carousel-slide img-src="http://localhost/happyhouse/static/images/b.jpg"></b-carousel-slide>
-               <b-carousel-slide img-src="http://localhost/happyhouse/static/images/bg-image2.png"></b-carousel-slide>
-               <b-carousel-slide img-src="http://localhost/happyhouse/static/images/bg-image3.jpg"></b-carousel-slide>
+            <b-carousel id="carousel-fade" style="text-shadow: 0px 0px 2px #000" fade indicators img-width="1410" img-height="400">
+               <b-carousel-slide caption="First slide" img-src="http://localhost/happyhouse/static/images/main/slide-1.png"></b-carousel-slide>
+               <b-carousel-slide caption="Second Slide" img-src="http://localhost/happyhouse/static/images/main/slide-2.png"></b-carousel-slide>
             </b-carousel>
          </div>
          <home-search></home-search>
@@ -14,7 +13,7 @@
             <div class="row">
                <div class="col">
                   <div class="intro">
-                     <span class="title">소개할게요</span>
+                     <span class="title"><i class="fas fa-comments"></i> 소개할게요</span>
                      <hr />
                      <img class="intro-img" alt="intro image" src="../assets/images/intro.jpg" />
                   </div>
