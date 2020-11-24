@@ -46,12 +46,12 @@
       <div class="w3-container">
          <div id="modal_write" class="w3-modal ">
             <div class="w3-modal-content w3-card-4 w3-animate-zoom rounded-lg" style="max-width:400px">
-               <form class="w3-container" action="/action_page.php">
+               <div class="w3-container">
                   <div class="w3-section text-center p-2">
-                     <label class="text-center pb-2">
-                        {{ userName }}님, <span>{{ sendData.aptName }}</span> 어떻게 생각하세요?
+                     <label class="text-center pb-2" v-if="userInfo != null">
+                        {{ userInfo.name }}님, <span>{{ sendData.aptName }}</span> 어떻게 생각하세요?
                      </label>
-                     <input class="w3-input border-0 shadow p-3 mb-4 bg-white rounded-lg" type="textarea" name="content" placeholder="리뷰를 작성해주세요.." required />
+                     <input class="w3-input border-0 shadow p-3 mb-4 bg-white rounded-lg" type="textarea" name="content" v-model="content" placeholder="리뷰를 작성해주세요.." required />
                      <div class="shadow p-3 mb-4 bg-white rounded-lg">
                         <div class="d-flex justify-content-center">
                            <span class="font-weight-bold blue-text mr-2 mt-1"><i class="fas fa-thumbs-down" aria-hidden="true"></i></span>
@@ -63,10 +63,10 @@
                      <div class="container-fluid d-flex justify-content-center">
                         <input class="btn btn-outline-warning mr-2" type="reset" value="reset" />
                         <button class="btn btn-outline-success w-50" type="submit" @click="registerReview">write</button>
-                        <button onclick="document.getElementById('modal_write').style.display='none'" type="button" class="btn btn-outline-danger ml-md-2">cancel</button>
+                        <button @click="removeReviewWindow" type="button" class="btn btn-outline-danger ml-md-2">cancel</button>
                      </div>
                   </div>
-               </form>
+               </div>
             </div>
          </div>
       </div>
@@ -83,7 +83,6 @@ export default {
    props: ['sendData', 'aptReviews'],
    data: () => {
       return {
-         userName: 'test',
          content: '',
          rating: 5,
          images: [
@@ -135,6 +134,7 @@ export default {
             .then(() => {
                alert('리뷰가 추가되었습니다');
                this.removeReviewWindow();
+               this.$emit('updateReview', this.sendData.no) // 부모 컴포넌트에게 리뷰 바뀌었다고 이벤트 전달
             })
             .catch((error) => {
                alert('요청에 실패했습니다.');
@@ -142,14 +142,15 @@ export default {
             });
       },
       reviewWindow() {
+         // 로그인이 되어있지 않은 경우
          if (this.userInfo == null) {
             router.push({ name: 'Login' });
             return;
          }
-         document.getElementById('modal_write').style.display = 'block';
+         document.getElementById('modal_write').style.display = 'block'; // 팝업창 띄우기
       },
       removeReviewWindow() {
-         document.getElementById('modal_write').style.display = 'none';
+         document.getElementById('modal_write').style.display = 'none'; // 팝업창 제거
       },
    },
    computed: {

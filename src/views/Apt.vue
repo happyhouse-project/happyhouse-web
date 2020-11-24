@@ -1,7 +1,9 @@
 <template>
    <div class="mapArea">
       <apt-search @searchApt="searchAptByNo"></apt-search>
-      <side-info v-show="is_show" :sendData="aptInfo" :aptReviews="reviews" v-on:closeFlag="changeIsShow"></side-info>
+      <side-info v-show="is_show" :sendData="aptInfo" 
+      :aptReviews="reviews" v-on:closeFlag="changeIsShow"
+      @updateReview="updateReviews"></side-info>
       <div>
          <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
             <div class="px-3 py-2">
@@ -84,7 +86,6 @@ export default {
 
       onSearchInit() {
          this.aptNo = this.$route.params.no;
-         console.log(this.aptNo);
          if (this.aptNo !== undefined) {
             this.getAptDetail(this.aptNo);
          }
@@ -181,21 +182,22 @@ export default {
          this.markers.forEach((current, i) => {
             kakao.maps.event.addListener(current, 'click', () => {
                var no = current.getTitle();
-               var positions = current.getPosition();
+               // var positions = current.getPosition();
 
-               // 중앙값 변경
-               this.mapObject.setCenter(new kakao.maps.LatLng(positions.Ma, positions.La));
-               this.onMapEvent('dragend'); // 중앙값 이동 후, 변경 지도 기준으로 다시 뿌리기
-               axios
-                  .get('http://localhost/happyhouse/house/' + no)
-                  .then((response) => {
-                     this.aptInfo = response.data;
-                     this.getReviews(no);
-                     this.is_show = true;
-                  })
-                  .catch((err) => {
-                     console.log('catch : ' + err);
-                  });
+               // // 중앙값 변경
+               // this.mapObject.setCenter(new kakao.maps.LatLng(positions.Ma, positions.La));
+               // this.onMapEvent('dragend'); // 중앙값 이동 후, 변경 지도 기준으로 다시 뿌리기
+               // axios
+               //    .get('http://localhost/happyhouse/house/' + no)
+               //    .then((response) => {
+               //       this.aptInfo = response.data;
+               //       this.getReviews(no);
+               //       this.is_show = true;
+               //    })
+               //    .catch((err) => {
+               //       console.log('catch : ' + err);
+               //    });
+               this.getAptDetail(no)
             });
          });
       },
@@ -208,7 +210,7 @@ export default {
                this.aptInfo = response.data;
                this.center.lat = this.aptInfo.lat;
                this.center.lng = this.aptInfo.lng;
-               this.getReviews(no);
+               this.getReviews(no); // 리뷰 가져오기
                this.is_show = true;
             })
             .catch((err) => {
@@ -252,6 +254,10 @@ export default {
                console.log(error);
             });
       },
+
+      updateReviews(no) { // 리뷰 입력시 업데이트 메서드 호출
+         this.getReviews(no)
+      }
    },
 };
 </script>
