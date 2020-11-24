@@ -19,6 +19,7 @@
                   <div class="reviewRow" v-for="review in getReviews" :key="review.id">
                      <span class="left">
                         <p>"{{ review.content }}"</p>
+                        <p>{{ review.writer }}</p>
                      </span>
                      <span class="right">
                         <b-button size="sm" pill variant="outline-success" disabled="disabled">{{ review.rating }}</b-button>
@@ -29,7 +30,7 @@
             <div class="reviewFooter">
                <div class="footer-wrapper">
                   <div class="left">
-                     <i class="fas fa-pen-square fa-2x" onclick="document.getElementById('modal_join').style.display='block'"></i>
+                     <i class="fas fa-pen-square fa-2x" onclick="document.getElementById('modal_write').style.display='block'"></i>
                   </div>
                   <div class="right">
                      <i class="far fa-laugh-squint fa-2x"></i>
@@ -41,25 +42,31 @@
          </b-card-text>
       </b-card>
 
-      <!-- 모달 : 회원가입 -->
+      <!-- 모달 : 리뷰작성 -->
       <div class="w3-container">
-         <div id="modal_join" class="w3-modal">
-            <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+         <div id="modal_write" class="w3-modal ">
+            <div class="w3-modal-content w3-card-4 w3-animate-zoom rounded-lg" style="max-width:400px">
                <form class="w3-container" action="/action_page.php">
-                  <div class="w3-section">
-                     <label><b>리뷰작성</b></label>
-                     <input class="w3-input w3-border w3-margin-bottom" type="text" name="content" required />
-                     <label><b>평점</b></label>
-                     <input class="w3-input w3-border" type="number" placeholder="영문 숫자 포함 6자리 이상" name="rating" required />
-                     <button class="w3-button w3-block w3-green w3-section w3-padding" type="submit">가입</button>
-                     <input class="w3-button w3-yellow w3-margin-bottom" type="reset" style="float: right;" value="다시쓰기" />
+                  <div class="w3-section text-center p-2">
+                     <label class="text-center pb-2">
+                        {{ userName }}님, <span>{{ sendData.aptName }}</span> 어떻게 생각하세요?
+                     </label>
+                     <input class="w3-input border-0 shadow p-3 mb-4 bg-white rounded-lg" type="textarea" name="content" placeholder="리뷰를 작성해주세요.." required />
+                     <div class="shadow p-3 mb-4 bg-white rounded-lg">
+                        <div class="d-flex justify-content-center">
+                           <span class="font-weight-bold blue-text mr-2 mt-1"><i class="fas fa-thumbs-down" aria-hidden="true"></i></span>
+                           <input class="border-0 w-75" type="range" v-model="rating" min="0" max="10" step="0.1" />
+                           <span class="font-weight-bold blue-text ml-2 mt-1"><i class="fas fa-thumbs-up" aria-hidden="true"></i></span>
+                        </div>
+                        <div class="slider-num">{{ rating }}</div>
+                     </div>
+                     <div class="container-fluid d-flex justify-content-center">
+                        <input class="btn btn-outline-warning mr-2" type="reset" value="reset" />
+                        <button class="btn btn-outline-success w-50" type="submit">write</button>
+                        <button onclick="document.getElementById('modal_write').style.display='none'" type="button" class="btn btn-outline-danger ml-md-2">cancel</button>
+                     </div>
                   </div>
                </form>
-
-               <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                  <button onclick="document.getElementById('modal_join').style.display='none'" type="button" class="w3-button w3-red">취소</button>
-                  <a onclick="document.getElementById('passChange').style.display='block'" class="w3-text-gray w3-right w3-padding"><U>비밀번호 찾기</U></a>
-               </div>
             </div>
          </div>
       </div>
@@ -67,15 +74,16 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
    name: 'SideInfo',
    props: ['sendData', 'aptReviews'],
    data: () => {
       return {
+         userName: 'test',
          content: '',
-         rating: '',
+         rating: 5,
          images: [
             'http://localhost/happyhouse/static/images/apt/1.jpg',
             'http://localhost/happyhouse/static/images/apt/2.jpg',
@@ -102,11 +110,7 @@ export default {
             },
          ],
 
-         reviews: [
-            {writer: ''},
-            {content: ''},
-            {rating: 0},
-         ],
+         reviews: [{ writer: '' }, { content: '' }, { rating: 0 }],
          aptInfo: null,
       };
    },
@@ -150,6 +154,7 @@ export default {
 </script>
 
 <style>
+@import url('https://www.w3schools.com/w3css/4/w3.css');
 @import url('https://www.w3schools.com/w3css/4/w3.css');
 
 .info {
@@ -259,6 +264,7 @@ p.card-text {
    font-size: 8pt;
    font-weight: 600;
    margin-bottom: 0px;
+   margin-left: 5px;
 }
 
 /* 하단 리뷰 작성, 및 총평 */
@@ -283,6 +289,24 @@ p.card-text {
    margin-right: 20px;
    font-size: 8pt;
    color: rgb(10, 101, 13);
+}
+
+/* 모달 : 리뷰 */
+#modal_write label {
+   font-size: 10pt;
+}
+
+#modal_write label span {
+   color: tomato;
+   font-size: 11pt;
+   font-weight: 600;
+}
+
+.slider-num {
+   margin-top: 12px;
+   font-size: 16pt;
+   color: rgb(182, 182, 182);
+   font-style: italic;
 }
 
 .card-title {
