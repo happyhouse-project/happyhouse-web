@@ -6,7 +6,7 @@
       </button>
       <hr />
       <div v-for="(notice, index) in noticeList" :key="index" class="notice-link">
-         <span class="ntc-notice-title" @click="gotoNotice()">{{ notice.title }}</span>
+         <span class="ntc-notice-title" @click="gotoNotice(notice.id)">{{ notice.title }}</span>
       </div>
    </div>
 </template>
@@ -22,10 +22,10 @@ export default {
       };
    },
    created() {
-      this.getHomeNews();
+      this.getHomeNotices();
    },
    methods: {
-      getHomeNews() {
+      getHomeNotices() {
          axios
             .get('http://localhost/happyhouse/notices/main')
             .then((response) => {
@@ -39,6 +39,9 @@ export default {
       gotoNoticeList() {
          router.push({ name: 'Notice' });
       },
+      gotoNotice(id) {
+         router.push({ name: 'NoticeDetail', params: {id: id}})
+      }
    },
 };
 </script>
