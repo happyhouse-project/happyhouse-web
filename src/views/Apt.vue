@@ -61,6 +61,7 @@ export default {
       infoKeyword: [],
       infoInflu: 0,
       apiMarkers: [],
+      apiOverlays: [],
    }),
    filters: {},
    created() {
@@ -137,7 +138,7 @@ export default {
          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
          this.removeMarkers(0);
-         this.removeCustomOverays();
+         this.removeCustomOverays(0);
 
          var marker;
 
@@ -206,6 +207,9 @@ export default {
                //    });
                this.getAptDetail(no);
 
+               this.removeMarkers(1); //api마커의 기존 마커 제거
+               this.removeCustomOverays(1); //api마커의 기존 마커 제거
+
                this.apiGetStation(positions);
                this.apiGetKeyword('다이소', positions);
                this.apiGetInfluence(positions);
@@ -245,11 +249,20 @@ export default {
          }
       },
 
-      removeCustomOverays() {
-         for (var i = 0; i < this.customOverlays.length; i++) {
-            this.customOverlays[i].setMap(null);
+      removeCustomOverays(i) {
+         /* i : 0(기본마커) 1(api마커)
+          */
+         if (i == 0) {
+            for (var i = 0; i < this.customOverlays.length; i++) {
+               this.customOverlays[i].setMap(null);
+            }
+            this.customOverlays = [];
+         } else {
+            for (var i = 0; i < this.apiOverlays.length; i++) {
+               this.apiOverlays[i].setMap(null);
+            }
+            this.apiOverlays = [];
          }
-         this.customOverlays = [];
       },
 
       searchAptByNo(no) {
@@ -327,6 +340,7 @@ export default {
             .then((response) => {
                var result = response.data.documents;
                this.infoStation = result[0];
+               this.setApiMarker('station', result);
                // console.log('부모 infoStation ', this.infoStation);
             })
             .catch((err) => {
@@ -346,6 +360,7 @@ export default {
                var result = response.data.documents;
                // console.log(result);
                this.infoKeyword = result[0];
+               this.setApiMarker('daiso', result);
                // console.log('부모 infoStation ', this.infoKeyword);
             })
             .catch((err) => {
@@ -353,13 +368,13 @@ export default {
             });
       },
 
-      //좌표기준 반경 500M의 편의점, 카페, 음식점 조회
+      //좌표기준 반경 500M의 편의점 조회
       apiGetInfluence(positions) {
          /*
          CS2(편의점), FD6(음식점), CE7(카페)
          */
          axios
-            .get(`https://dapi.kakao.com/v2/local/search/category.json?category_group_code=CS2,FD6,CE7&x=${positions.getLng()}&y=${positions.getLat()}&radius=300&sort=distance`, {
+            .get(`https://dapi.kakao.com/v2/local/search/category.json?category_group_code=CS2&x=${positions.getLng()}&y=${positions.getLat()}&radius=300&sort=distance`, {
                headers: {
                   Authorization: `KakaoAK ${this.appKey}`, //the token is a variable which holds the token
                },
@@ -367,29 +382,32 @@ export default {
             .then((response) => {
                var resultPlace = response.data.documents;
                this.infoInflu = response.data.meta.total_count;
-               this.setApiMarker(resultPlace);
-               // this.level = 2; // << api마커 볼땐 2단계
+               this.setApiMarker('CS2', resultPlace);
             })
             .catch((err) => {
                console.log('catch : ' + err);
             });
       },
 
-      setApiMarker(resultPlace) {
-         var source = [
-            { type: 'CS2', img: '1' }, //CS2 : 편의점
-            { type: 'CS2', img: '1' },
-            { type: 'CS2', img: '1' },
-         ];
-
-         var imageSrc = 'https://toppng.com/uploads/preview/map-point-google-map-marker-gif-11562858751s4qufnxuml.png', // 마커이미지의 주소입니다
-            imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
-            imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+      setApiMarker(category, resultPlace) {
+         var imageSize = new kakao.maps.Size(55, 60), // 마커이미지의 크기입니다
+            imageOption = { offset: new kakao.maps.Point(27, 40) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+         var num = 0;
+         var color = '';
+         if (category == 'station') {
+            num = 1;
+            color = '#ab7b04';
+         } else if (category == 'daiso') {
+            num = 2;
+            color = '#E1554E';
+         } else if (category == 'CS2') {
+            num = 3;
+            color = '#33ACD4';
+         }
+         var imageSrc = `http://localhost/happyhouse/static/images/apiMarker-${num}.png`;
 
          // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-
-         this.removeMarkers(1); //api마커의 기존 마커 제거
 
          var apiMarker;
 
@@ -401,18 +419,45 @@ export default {
             console.log(api.place_name);
             var position = new kakao.maps.LatLng(api.y, api.x);
 
+            // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+            var content = `<div class="customoverlay2">
+                                <span class="markerInfo" style="background-color:${color}">
+                                  <p>${api.place_name}</p>
+                                </span>
+                            </div>`;
+
+            // 커스텀 오버레이를 생성합니다
+            var apiOverlay = new kakao.maps.CustomOverlay({
+               map: this.mapObject,
+               position: position,
+               content: content,
+               xAnchor: 0.5,
+               yAnchor: -0.5,
+            });
+
             // 마커를 생성합니다
             apiMarker = new kakao.maps.Marker({
                map: this.mapObject,
                position: position,
                image: markerImage, // 마커이미지 설정
-               // clickable: true, // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+               clickable: true, // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
                title: api.place_name,
             });
 
             // 마커가 지도 위에 표시되도록 설정합니다
             apiMarker.setMap(this.mapObject);
             this.apiMarkers.push(apiMarker);
+
+            apiOverlay.setMap(this.mapObject);
+            this.apiOverlays.push(apiOverlay);
+
+            // // 마커에 클릭이벤트를 등록합니다
+            // kakao.maps.event.addListener(apiMarker, 'click', function() {
+            //    console.log(api.place_name);
+            //    // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+            //    infowindow.setContent(api.place_name);
+            //    infowindow.open(this.mapObject, apiMarker);
+            // });
          }
       },
    },
@@ -441,6 +486,7 @@ export default {
    border-bottom: 2px solid #ddd;
    float: left;
 }
+
 .customoverlay:nth-of-type(n) {
    border: 0;
    box-shadow: 0px 1px 2px #888;
@@ -474,4 +520,49 @@ export default {
    height: 12px;
    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
 }
+
+.customoverlay2 {
+   position: relative;
+   bottom: 65px;
+   border-radius: 10px;
+   border: 1px solid #ccc;
+   border-bottom: 2px solid rgb(0, 0, 0);
+   float: left;
+   z-index: 100;
+}
+
+.customoverlay2:nth-of-type(n) {
+   border: 0;
+   box-shadow: 0px 1px 2px #888;
+}
+
+.customoverlay2 .markerInfo {
+   display: block;
+
+   color: rgb(255, 255, 255);
+   border-radius: 10px;
+   overflow: hidden;
+
+   text-align: center;
+   background: #ab7b04;
+   /* margin-right: 35px; */
+   padding: 5px 7px;
+   font-size: 7px;
+   font-weight: bold;
+   z-index: 100;
+}
+
+.customoverlay2 p {
+   margin: 0;
+}
+/* .customoverlay2:after {
+   content: '';
+   position: absolute;
+   margin-left: -12px;
+   left: 50%;
+   bottom: -12px;
+   width: 22px;
+   height: 12px;
+   background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
+} */
 </style>
