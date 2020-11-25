@@ -3,7 +3,7 @@
       <div class="info-wrapper">
          {{ sendStation.place_name }}은 {{ sendStation.distance }}M 이내에
          <br />
-         {{ sendCustom.place_name }}은 {{ sendCustom.distance }}M 이내에
+         {{ sendKeyword.place_name }}은 {{ sendKeyword.distance }}M 이내에
          <br />
          슬세권 : {{ sendInflu }}
       </div>
@@ -15,7 +15,7 @@ import axios from 'axios';
 
 export default {
    name: 'InfoDispaly',
-   props: ['sendStation', 'sendCustom', 'sendInflu'],
+   props: ['sendStation', 'sendKeyword', 'sendInflu'],
    data: () => {
       return {
          name: '',

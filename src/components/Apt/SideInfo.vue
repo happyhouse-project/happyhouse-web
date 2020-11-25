@@ -7,6 +7,8 @@
             <b-button size="sm" pill variant="outline-secondary" disabled="disabled" style="margin-left:4px; font-size:8pt">
                {{ sendData.buildYear }}
             </b-button>
+            <b-button size="sm" pill variant="outline-success" style="font-size:8pt; font-weight:600; margin-left:4px;"> 안전지수 89 </b-button>
+            <b-button size="sm" pill variant="outline-primary" style="font-size:8pt; font-weight:600; margin-left:4px;"> 평점 89 </b-button>
             <hr />
             <b>거래 내역</b><br />
             <div class="dealTable">
@@ -32,10 +34,8 @@
                   <div class="left">
                      <i class="fas fa-pen-square fa-2x" @click="reviewWindow"></i>
                   </div>
-                  <div class="right">
-                     <i class="far fa-laugh-squint fa-2x"></i>
-                     <i class="far fa-laugh-squint fa-2x"></i>
-                     <i class="far fa-laugh-squint fa-2x"></i>
+                  <div class="right" style="color:grey; font-weight:600">
+                     * 안전지수 : 범죄, 교통사고, 화재건수
                   </div>
                </div>
             </div>

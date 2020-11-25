@@ -1,6 +1,6 @@
 <template>
    <div class="mapArea">
-      <info-display :sendStation="infoStation" :sendCustom="infoCustom" :sendInflu="infoInflu"></info-display>
+      <info-display :sendStation="infoStation" :sendKeyword="infoKeyword" :sendInflu="infoInflu"></info-display>
       <apt-search @searchApt="searchAptByNo" @changeMapFlag="changeMapType"></apt-search>
       <side-info v-show="is_show" :sendData="aptInfo" :aptReviews="reviews" v-on:closeFlag="changeIsShow" @updateReview="updateReviews"></side-info>
       <div>
@@ -58,7 +58,7 @@ export default {
 
       //infoDisplay - 역정보, 다이소 등
       infoStation: [],
-      infoCustom: [],
+      infoKeyword: [],
       infoInflu: 0,
       apiMarkers: [],
    }),
@@ -207,7 +207,7 @@ export default {
                this.getAptDetail(no);
 
                this.apiGetStation(positions);
-               this.apiGetCustom('다이소', positions);
+               this.apiGetKeyword('다이소', positions);
                this.apiGetInfluence(positions);
             });
          });
@@ -335,7 +335,7 @@ export default {
       },
 
       //좌표 기준 키워드(다이소) 검색 -> 가까운 정보 정보 반환
-      apiGetCustom(keyword, positions) {
+      apiGetKeyword(keyword, positions) {
          axios
             .get(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${keyword}&x=${positions.getLng()}&y=${positions.getLat()}&sort=distance&size=3`, {
                headers: {
@@ -345,8 +345,8 @@ export default {
             .then((response) => {
                var result = response.data.documents;
                // console.log(result);
-               this.infoCustom = result[0];
-               // console.log('부모 infoStation ', this.infoCustom);
+               this.infoKeyword = result[0];
+               // console.log('부모 infoStation ', this.infoKeyword);
             })
             .catch((err) => {
                console.log('catch : ' + err);
@@ -368,7 +368,7 @@ export default {
                var resultPlace = response.data.documents;
                this.infoInflu = response.data.meta.total_count;
                this.setApiMarker(resultPlace);
-               this.level = 2;
+               this.level = 2; // << api마커 볼땐 2단계
             })
             .catch((err) => {
                console.log('catch : ' + err);
