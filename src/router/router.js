@@ -13,6 +13,7 @@ import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import RegisterConfirm from '../views/RegisterConfirm.vue'
 import AptChart from '../views/AptChart.vue'
+import Intro from '../views/Intro.vue'
 
 Vue.use(VueRouter);
 
@@ -124,6 +125,14 @@ const routes = [
       footer: Footer,
     },
   },
+  {
+    path: '/intro',
+    name: 'Intro',
+    components: {
+      header: Header,
+      default: Intro,
+    },
+  }
 ];
 
 const router = new VueRouter({

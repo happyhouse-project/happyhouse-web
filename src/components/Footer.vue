@@ -2,7 +2,7 @@
    <footer>
       <div class="footer-left">
          <p style="margin:1px;">
-            <a href="/happyhouse/views/about.html" target="_blank">회사소개</a> | <a href="#">이용약관</a> | <a href="#">개인정보 처리방침</a> |
+            <router-link to="/intro">회사소개</router-link> | <a href="#">이용약관</a> | <a href="#">개인정보 처리방침</a> |
             <a href="#" target="_blank">위치기반 서비스 이용약관</a>
          </p>
          <p>

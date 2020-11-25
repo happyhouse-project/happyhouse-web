@@ -53,7 +53,7 @@ export default {
 
 <style scoped>
 body {
-   background-color: #f9f9f9;
+   background-color: #f9f9f9;   
 }
 
 .carousel-wrapper {
@@ -61,7 +61,7 @@ body {
 }
 
 .main {
-   height: 1000px;
+   height: 100vh;
 }
 
 .menu {

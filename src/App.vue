@@ -27,7 +27,7 @@
    /* min-height: 400px !important; */
    /* height: 1000px !important; */
    /*height: 100vh !important;*/
-   /* overflow-y: hidden; */
+   /* overflow-y: hidden; 
    /* margin: -100px 0 -50px; */
    /* width: auto !important; */
    margin-top: 77px;
