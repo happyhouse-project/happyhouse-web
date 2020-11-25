@@ -11,7 +11,7 @@
 
          <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="navbar-menu">
-               <b-nav-item><router-link to="/Apt">아파트</router-link></b-nav-item>
+               <b-nav-item><router-link to="/Apt">Maps</router-link></b-nav-item>
                <b-nav-item><router-link to="/News">News</router-link></b-nav-item>
                <b-nav-item><router-link to="/notice">Notice</router-link></b-nav-item>
             </b-navbar-nav>

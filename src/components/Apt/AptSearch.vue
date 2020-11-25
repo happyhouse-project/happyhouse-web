@@ -2,10 +2,10 @@
    <div class="AptSearch">
       <div class="searchInput shadow-lg bg-white">
          <div class="mapType-wrappter">
-            <button @click="callMapType('normal')" style="font-size:5pt">보통지도</button>
-            <button @click="callMapType('hybrid')" style="font-size:5pt">스카이뷰</button>
-            <button @click="callMapType('terrain')" style="font-size:5pt">지형정보</button>
-            <button @click="callMapType('use_district')" style="font-size:5pt">지적편집도</button>
+            <b-button @click="callMapType('normal')" style="font-size:5pt">보통지도</b-button>
+            <b-button @click="callMapType('hybrid')" style="font-size:5pt">스카이뷰</b-button>
+            <b-button @click="callMapType('terrain')" style="font-size:5pt">지형정보</b-button>
+            <b-button @click="callMapType('use_district')" style="font-size:5pt">지적편집도</b-button>
          </div>
          <input type="text" placeholder="아파트명을 입력하세요" name="search" v-model="aptName" @keyup.enter="searchAptName" />
          <i v-show="isShow" class="fas fa-times close-icon" @click="clear"></i>

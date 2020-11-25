@@ -1,6 +1,6 @@
 <template>
    <div class="mapArea">
-      <info-display :sendStation="infoStation" :sendKeyword="infoKeyword" :sendInflu="infoInflu"></info-display>
+      <info-display v-show="is_show" :sendStation="infoStation" :sendKeyword="infoKeyword" :sendInflu="infoInflu" v-on:closeFlag="changeIsShow"></info-display>
       <apt-search @searchApt="searchAptByNo" @changeMapFlag="changeMapType"></apt-search>
       <side-info v-show="is_show" :sendData="aptInfo" :aptReviews="reviews" v-on:closeFlag="changeIsShow" @updateReview="updateReviews"></side-info>
       <div>
@@ -77,6 +77,9 @@ export default {
       changeIsShow() {
          // console.log('changeIsShow', this.is_show);
          this.is_show = !this.is_show;
+
+         this.removeMarkers(1); //api마커의 기존 마커 제거
+         this.removeCustomOverays(1); //api마커의 기존 마커 제거
       },
       onLoad(map) {
          this.onSearchInit();
@@ -226,6 +229,20 @@ export default {
                this.center.lat = this.aptInfo.lat;
                this.center.lng = this.aptInfo.lng;
                this.getReviews(no); // 리뷰 가져오기
+
+               var positions = {
+                  La: this.center.lng,
+                  Ma: this.center.lat,
+               };
+
+               this.removeMarkers(1); //api마커의 기존 마커 제거
+               this.removeCustomOverays(1); //api마커의 기존 마커 제거
+
+               // 아래 메소드를 통해서 마커를 찍어야 하는데, 하면 is_show가 동작하지않음..
+               // this.apiGetStation(positions);
+               // this.apiGetKeyword('다이소', positions);
+               // this.apiGetInfluence(positions);
+
                this.is_show = true;
             })
             .catch((err) => {
@@ -416,7 +433,6 @@ export default {
             // if (idx >= 50) break;
 
             var api = resultPlace[idx];
-            console.log(api.place_name);
             var position = new kakao.maps.LatLng(api.y, api.x);
 
             // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
