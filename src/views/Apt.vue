@@ -1,8 +1,8 @@
 <template>
    <div class="mapArea">
-      <info-display v-show="is_show" :sendStation="infoStation" :sendKeyword="infoKeyword" :sendInflu="infoInflu" v-on:closeFlag="changeIsShow"></info-display>
+      <info-display v-show="isInfoShow" :sendStation="infoStation" :sendKeyword="infoKeyword" :sendInflu="infoInflu" v-on:closeFlag="closeInfoShow"></info-display>
       <apt-search @searchApt="searchAptByNo" @changeMapFlag="changeMapType"></apt-search>
-      <side-info v-show="is_show" :sendData="aptInfo" :aptReviews="reviews" v-on:closeFlag="changeIsShow" @updateReview="updateReviews"></side-info>
+      <side-info v-show="isSideShow" :sendData="aptInfo" :aptReviews="reviews" v-on:closeFlag="closeSideShow" @updateReview="updateReviews"></side-info>
       <div>
          <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
             <div class="px-3 py-2">
@@ -48,7 +48,8 @@ export default {
       mapTypeId: VueDaumMap.MapTypeId.NORMAL,
       libraries: [],
       mapObject: null,
-      is_show: false, // sideInfo 닫기
+      isSideShow: false, // sideInfo 닫기
+      isInfoShow: false, // infoshow 닫기
       aptList: [],
       markers: [],
       customOverlays: [],
@@ -74,10 +75,12 @@ export default {
          this.center.lng = 126.9688505;
       },
       // SideInfo에서 닫기 클릭시 종료
-      changeIsShow() {
-         // console.log('changeIsShow', this.is_show);
-         this.is_show = !this.is_show;
-
+      closeSideShow() {
+         // console.log('changeIsShow', this.isSideShow);
+         this.isSideShow = !this.isSideShow
+      },
+      closeInfoShow() {
+         this.isInfoShow = !this.isInfoShow
          this.removeMarkers(1); //api마커의 기존 마커 제거
          this.removeCustomOverays(1); //api마커의 기존 마커 제거
       },
@@ -193,22 +196,8 @@ export default {
             kakao.maps.event.addListener(current, 'click', () => {
                var no = current.getTitle();
                var positions = current.getPosition();
-               console.log('현재 좌표 범위 ' + current.getPosition());
 
-               // // 중앙값 변경
-               // this.mapObject.setCenter(new kakao.maps.LatLng(positions.Ma, positions.La));
-               // this.onMapEvent('dragend'); // 중앙값 이동 후, 변경 지도 기준으로 다시 뿌리기
-               // axios
-               //    .get('http://localhost/happyhouse/house/' + no)
-               //    .then((response) => {
-               //       this.aptInfo = response.data;
-               //       this.getReviews(no);
-               //       this.is_show = true;
-               //    })
-               //    .catch((err) => {
-               //       console.log('catch : ' + err);
-               //    });
-               this.getAptDetail(no, positions);
+               this.getAptDetail(no);
 
                // this.removeMarkers(1); //api마커의 기존 마커 제거
                // this.removeCustomOverays(1); //api마커의 기존 마커 제거
@@ -220,10 +209,7 @@ export default {
          });
       },
 
-      getAptDetail(no, position) {
-         var positions = position;
-         console.log(positions);
-
+      getAptDetail(no) {
          axios
             .get('http://localhost/happyhouse/house/' + no)
             .then((response) => {
@@ -231,24 +217,21 @@ export default {
                this.aptInfo = response.data;
                this.center.lat = this.aptInfo.lat;
                this.center.lng = this.aptInfo.lng;
+
+               var positions = new kakao.maps.LatLng(this.center.lat, this.center.lng);
+
                this.getReviews(no); // 리뷰 가져오기
-               if (positions == null) {
-                  positions = {
-                     La: this.center.lng,
-                     Ma: this.center.lat,
-                  };
-                  console.log('NULL', positions);
-               }
 
                this.removeMarkers(1); //api마커의 기존 마커 제거
                this.removeCustomOverays(1); //api마커의 기존 마커 제거
 
-               // 아래 메소드를 통해서 마커를 찍어야 하는데, 하면 is_show가 동작하지않음..
+               // 아래 메소드를 통해서 마커를 찍어야 하는데, 하면 isSideShow가 동작하지않음..
                this.apiGetStation(positions);
                this.apiGetKeyword('다이소', positions);
                this.apiGetInfluence(positions);
 
-               this.is_show = true;
+               this.isSideShow = true;
+               this.isInfoShow = true;
             })
             .catch((err) => {
                console.log('catch : ' + err);
