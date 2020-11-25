@@ -30,7 +30,7 @@
                </button>
             </div>
             <div class="clearfix">
-               <label class="float-left form-check-label"><input type="checkbox" /> 아이디 저장 </label>
+               <!-- <label class="float-left form-check-label"><input type="checkbox" /> 아이디 저장 </label> -->
                <a href="./forgotPassword" class="float-right">비밀번호 찾기</a>
             </div>
             <div class="or-seperator"><i>or</i></div>
