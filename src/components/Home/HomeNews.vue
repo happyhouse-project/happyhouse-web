@@ -1,6 +1,6 @@
 <template>
    <div>
-      <span class="title"><i class="far fa-newspaper"></i> 뉴스</span>
+      <span class="title"><i class="far fa-newspaper"></i> News</span>
       <button class="addBtn news-add-btn" type="button" @click="gotoNewsList()">
          더보기
       </button>
@@ -55,7 +55,7 @@ export default {
    font-size: 12px;
 }
 .news-add-btn {
-   margin-left: 68%;
+   margin-left: 62%;
 }
 
 .news-link {

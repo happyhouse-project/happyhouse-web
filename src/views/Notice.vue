@@ -1,8 +1,8 @@
 <template>
    <div class="main">
       <div class="infolist">
-         <h3>공지사항</h3>
-         <button v-if="userInfo != null && userInfo.auth == 2" class="addBtn btn-right btn-bottom" type="button" @click="gotoNoticeRegister">공지 추가하기</button>
+         <h3><i class="fas fa-bullhorn"></i> 공지사항</h3>
+         <b-button pill variant="info" v-if="userInfo != null && userInfo.auth == 2" class="addBtn btn-right btn-bottom" type="button" @click="gotoNoticeRegister">공지 추가하기</b-button>
          <hr class="hr-main" />
          <div class="notice" v-for="(notice, index) in noticeList" :key="index">
             <p @click="gotoNoticeDetail(notice.id)">{{ notice.title }}</p>
@@ -14,7 +14,7 @@
 <script>
 import axios from 'axios';
 import router from '../router/router';
-import {mapState} from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
    data() {
@@ -55,10 +55,20 @@ export default {
 };
 </script>
 <style scoped>
+h3 {
+   font-family: 'Do Hyeon' !important;
+}
+
 .main {
+   height: 100vh;
    background-color: white;
+   padding-top: 3%;
    padding-left: 15%;
    padding-right: 15%;
+   padding-bottom: 20%;
+   overflow-y: auto;
+   font-family: 'Do Hyeon' !important;
+   font-size: 14pt;
 }
 
 .content {
@@ -87,8 +97,6 @@ input[type='checkbox'] {
 }
 
 .addBtn {
-   background-color: white;
-   border: 1px solid #c9c9c9;
    font-size: 12px;
 }
 

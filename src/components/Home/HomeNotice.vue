@@ -1,6 +1,6 @@
 <template>
    <div>
-      <span class="title"><i class="fas fa-bullhorn"></i> 공지사항</span>
+      <span class="title"><i class="fas fa-bullhorn"></i> Notice</span>
       <button class="addBtn notice-add-btn" type="button" @click="gotoNoticeList()">
          더보기
       </button>
@@ -40,8 +40,8 @@ export default {
          router.push({ name: 'Notice' });
       },
       gotoNotice(id) {
-         router.push({ name: 'NoticeDetail', params: {id: id}})
-      }
+         router.push({ name: 'NoticeDetail', params: { id: id } });
+      },
    },
 };
 </script>

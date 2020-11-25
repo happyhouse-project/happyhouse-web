@@ -4,8 +4,8 @@
          <!--1. carousel 들어가는 div -->
          <div class="carousel-wrapper">
             <b-carousel id="carousel-fade" style="text-shadow: 0px 0px 2px #000" fade indicators img-width="1410" img-height="400">
-               <b-carousel-slide caption="First slide" img-src="http://localhost/happyhouse/static/images/main/slide-1.png"></b-carousel-slide>
-               <b-carousel-slide caption="Second Slide" img-src="http://localhost/happyhouse/static/images/main/slide-2.png"></b-carousel-slide>
+               <b-carousel-slide img-src="http://localhost/happyhouse/static/images/main/slide-1.png"></b-carousel-slide>
+               <b-carousel-slide img-src="http://localhost/happyhouse/static/images/main/slide-2.png"></b-carousel-slide>
             </b-carousel>
          </div>
          <home-search></home-search>
@@ -13,21 +13,21 @@
             <div class="row">
                <div class="col">
                   <div class="intro">
-                     <span class="title"><i class="fas fa-comments"></i> 소개할게요</span>
+                     <span class="title"><i class="fas fa-comments"></i> About</span>
                      <hr />
-                     <img class="intro-img" alt="intro image" src="../assets/images/intro.jpg" />
+                     <img class="intro-img" alt="intro image" src="http://localhost/happyhouse/static/images/main/about.png" />
                   </div>
                </div>
                <div class="col">
                   <!-- news -->
                   <div class="news">
-                     <home-news></home-news>
+                     <home-news class="routerNews"></home-news>
                   </div>
                </div>
                <div class="col">
                   <!-- 공지사항 -->
                   <div class="notice">
-                     <home-notice></home-notice>
+                     <home-notice class="routerNews"></home-notice>
                   </div>
                </div>
             </div>
@@ -61,7 +61,9 @@ body {
 }
 
 .main {
-   height: 1000px;
+   height: 100vh;
+   overflow-y: auto;
+   padding-bottom: 20%;
 }
 
 .menu {
@@ -132,6 +134,7 @@ body {
 
 .news {
    width: 350px;
+   height: 486px;
    padding: 15px;
 }
 
@@ -151,7 +154,6 @@ body {
 
 .intro-img {
    width: 320px;
-   height: 220px;
 }
 
 .addBtn {
@@ -177,5 +179,10 @@ body {
 
 .carousel-item img {
    height: 400px;
+}
+
+.routerNews {
+   /* background-color: red; */
+   height: 440px;
 }
 </style>
