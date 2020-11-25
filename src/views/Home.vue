@@ -160,14 +160,6 @@ body {
    font-size: 12px;
 }
 
-.notice-add-btn {
-   margin-left: 60%;
-}
-
-.news-add-btn {
-   margin-left: 70%;
-}
-
 .btn-right {
    margin-left: 92%;
 }

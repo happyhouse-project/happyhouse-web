@@ -55,7 +55,7 @@ export default {
    font-size: 12px;
 }
 .news-add-btn {
-   margin-left: 70%;
+   margin-left: 68%;
 }
 
 .news-link {
