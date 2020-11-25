@@ -14,6 +14,7 @@
                <b-nav-item><router-link to="/Apt">Maps</router-link></b-nav-item>
                <b-nav-item><router-link to="/News">News</router-link></b-nav-item>
                <b-nav-item><router-link to="/notice">Notice</router-link></b-nav-item>
+               <b-nav-item><router-link to="/chart">검색순위</router-link></b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
                <b-nav-item v-if="userInfo == null" class="login-tab"

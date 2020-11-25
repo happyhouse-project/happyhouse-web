@@ -12,6 +12,7 @@ import NoticeRegister from '@/views/NoticeRegister.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import RegisterConfirm from '../views/RegisterConfirm.vue'
+import AptChart from '../views/AptChart.vue'
 
 Vue.use(VueRouter);
 
@@ -112,6 +113,15 @@ const routes = [
     components: {
       header: Header,
       default: Apt,
+    },
+  },
+  {
+    path: '/chart',
+    name: 'AptChart',
+    components: {
+      header: Header,
+      default: AptChart,
+      footer: Footer,
     },
   },
 ];
