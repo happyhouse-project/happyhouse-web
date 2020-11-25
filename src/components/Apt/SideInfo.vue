@@ -85,7 +85,7 @@ export default {
       return {
          content: '',
          rating: 5,
-         image: "",
+         image: '',
          fields: [
             {
                key: 'no',
@@ -160,7 +160,7 @@ export default {
          return this.sendData.aptName;
       },
       getImage() {
-         return "http://localhost/happyhouse/static/images/apt/"+this.sendData.img+".jpg"
+         return 'http://localhost/happyhouse/static/images/apt/' + this.sendData.img + '.jpg';
       },
       getDealTable() {
          var arr = this.sendData.deals;
@@ -186,7 +186,6 @@ export default {
 </script>
 
 <style>
-@import url('https://www.w3schools.com/w3css/4/w3.css');
 @import url('https://www.w3schools.com/w3css/4/w3.css');
 
 .info {
