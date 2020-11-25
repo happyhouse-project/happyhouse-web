@@ -193,7 +193,7 @@ export default {
             kakao.maps.event.addListener(current, 'click', () => {
                var no = current.getTitle();
                var positions = current.getPosition();
-               // console.log('현재 좌표 범위 ' + current.getPosition());
+               console.log('현재 좌표 범위 ' + current.getPosition());
 
                // // 중앙값 변경
                // this.mapObject.setCenter(new kakao.maps.LatLng(positions.Ma, positions.La));
@@ -208,19 +208,22 @@ export default {
                //    .catch((err) => {
                //       console.log('catch : ' + err);
                //    });
-               this.getAptDetail(no);
+               this.getAptDetail(no, positions);
 
-               this.removeMarkers(1); //api마커의 기존 마커 제거
-               this.removeCustomOverays(1); //api마커의 기존 마커 제거
+               // this.removeMarkers(1); //api마커의 기존 마커 제거
+               // this.removeCustomOverays(1); //api마커의 기존 마커 제거
 
-               this.apiGetStation(positions);
-               this.apiGetKeyword('다이소', positions);
-               this.apiGetInfluence(positions);
+               // this.apiGetStation(positions);
+               // this.apiGetKeyword('다이소', positions);
+               // this.apiGetInfluence(positions);
             });
          });
       },
 
-      getAptDetail(no) {
+      getAptDetail(no, position) {
+         var positions = position;
+         console.log(positions);
+
          axios
             .get('http://localhost/happyhouse/house/' + no)
             .then((response) => {
@@ -229,19 +232,21 @@ export default {
                this.center.lat = this.aptInfo.lat;
                this.center.lng = this.aptInfo.lng;
                this.getReviews(no); // 리뷰 가져오기
-
-               var positions = {
-                  La: this.center.lng,
-                  Ma: this.center.lat,
-               };
+               if (positions == null) {
+                  positions = {
+                     La: this.center.lng,
+                     Ma: this.center.lat,
+                  };
+                  console.log('NULL', positions);
+               }
 
                this.removeMarkers(1); //api마커의 기존 마커 제거
                this.removeCustomOverays(1); //api마커의 기존 마커 제거
 
                // 아래 메소드를 통해서 마커를 찍어야 하는데, 하면 is_show가 동작하지않음..
-               // this.apiGetStation(positions);
-               // this.apiGetKeyword('다이소', positions);
-               // this.apiGetInfluence(positions);
+               this.apiGetStation(positions);
+               this.apiGetKeyword('다이소', positions);
+               this.apiGetInfluence(positions);
 
                this.is_show = true;
             })
