@@ -368,7 +368,7 @@ export default {
                var resultPlace = response.data.documents;
                this.infoInflu = response.data.meta.total_count;
                this.setApiMarker(resultPlace);
-               this.level = 2; // << api마커 볼땐 2단계
+               // this.level = 2; // << api마커 볼땐 2단계
             })
             .catch((err) => {
                console.log('catch : ' + err);
