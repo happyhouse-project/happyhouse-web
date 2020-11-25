@@ -16,7 +16,7 @@
          <div class="detail-content shadow-lg bg-white">
             <textarea readonly class="w-100" rows="15" v-model="notice.content"></textarea>
          </div>
-         <div class="w-100 text-center mt-4">
+         <div v-if="userInfo != null && notice.writerId == userInfo.id" class="w-100 text-center mt-4">
             <b-button size="md" pill variant="outline-danger" @click="remove(notice.id)"><span style="padding: 0px 30px">delete</span></b-button>
          </div>
       </div>
@@ -26,6 +26,7 @@
 <script>
 import axios from 'axios';
 import router from '../router/router';
+import {mapState} from "vuex";
 
 export default {
    data() {
@@ -62,6 +63,9 @@ export default {
                console.log(error);
             });
       },
+   },
+   computed: {
+      ...mapState(['userInfo']),
    },
 };
 </script>
