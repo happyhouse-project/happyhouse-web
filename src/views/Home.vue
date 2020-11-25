@@ -13,7 +13,7 @@
             <div class="row">
                <div class="col">
                   <div class="intro">
-                     <span class="title"><i class="fas fa-comments"></i> About</span>
+                     <span class="title"><i class="fas fa-comments"></i> 소개합니다</span>
                      <hr />
                      <img class="intro-img" alt="intro image" src="http://localhost/happyhouse/static/images/main/about.png" />
                   </div>

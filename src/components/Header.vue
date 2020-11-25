@@ -11,10 +11,10 @@
 
          <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="navbar-menu">
-               <b-nav-item><router-link to="/Apt">Maps</router-link></b-nav-item>
-               <b-nav-item><router-link to="/News">News</router-link></b-nav-item>
-               <b-nav-item><router-link to="/notice">Notice</router-link></b-nav-item>
-               <b-nav-item><router-link to="/chart">Rank</router-link></b-nav-item>
+               <b-nav-item><router-link to="/Apt">아파트</router-link></b-nav-item>
+               <b-nav-item><router-link to="/News">뉴스</router-link></b-nav-item>
+               <b-nav-item><router-link to="/notice">공지</router-link></b-nav-item>
+               <b-nav-item><router-link to="/chart">순위</router-link></b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto">
                <b-nav-item v-if="userInfo == null" class="login-tab"

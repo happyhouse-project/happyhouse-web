@@ -1,6 +1,6 @@
 <template>
    <div>
-      <span class="title"><i class="fas fa-bullhorn"></i> Notice</span>
+      <span class="title"><i class="fas fa-bullhorn"></i> 공지</span>
       <button class="addBtn notice-add-btn" type="button" @click="gotoNoticeList()">
          더보기
       </button>
