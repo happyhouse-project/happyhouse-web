@@ -7,8 +7,8 @@
             <b-button size="sm" pill variant="outline-secondary" disabled="disabled" style="margin-left:4px; font-size:8pt">
                {{ sendData.buildYear }}
             </b-button>
-            <b-button size="sm" pill variant="outline-success" style="font-size:8pt; font-weight:600; margin-left:4px;"> 안전지수 89 </b-button>
-            <b-button size="sm" pill variant="outline-primary" style="font-size:8pt; font-weight:600; margin-left:4px;"> 평점 89 </b-button>
+            <b-button size="sm" pill variant="outline-success" style="font-size:8pt; font-weight:600; margin-left:4px;"> 안전지수 {{getSafetyPoint}} </b-button>
+            <b-button size="sm" pill variant="outline-primary" style="font-size:8pt; font-weight:600; margin-left:4px;"> 평점 {{getAvgRating}} </b-button>
             <hr />
             <b>거래 내역</b><br />
             <div class="dealTable">
@@ -80,7 +80,7 @@ import { mapState } from 'vuex';
 
 export default {
    name: 'SideInfo',
-   props: ['sendData', 'aptReviews'],
+   props: ['sendData', 'aptReviews',],
    data: () => {
       return {
          content: '',
@@ -106,13 +106,10 @@ export default {
 
          reviews: [{ writer: '' }, { content: '' }, { rating: 0 }],
          aptInfo: null,
+         safety: 0.0,
       };
    },
    methods: {
-      currency(value) {
-         var num = new Number(value);
-         return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,');
-      },
       closeSideInfo() {
          this.$emit('closeFlag');
       },
@@ -150,6 +147,16 @@ export default {
          this.content = '';
          this.rating = 5;
       },
+      getSafety() {
+         axios
+         .get('http://localhost/happyhouse/safety/'+this.sendData.code)
+         .then((response) => {
+            this.safety = response.data.safety
+         })
+         .catch((exp) => {
+            console.log('err.' + exp);
+         });
+      }
    },
    computed: {
       ...mapState(['userInfo']),
@@ -160,6 +167,9 @@ export default {
          return this.sendData.aptName;
       },
       getImage() {
+         if(this.sendData.img == undefined) {
+            return
+         }
          return 'http://localhost/happyhouse/static/images/apt/' + this.sendData.img + '.jpg';
       },
       getDealTable() {
@@ -180,6 +190,24 @@ export default {
             });
          }
          return dealList;
+      },
+
+      getAvgRating() {
+         var rating = 0.0
+         var size = this.aptReviews.length
+
+         if(size == 0) { return rating } // 평점이 없는 경우 리턴
+         for(var i=0; i<this.aptReviews.length; i++) {
+            rating += this.aptReviews[i].rating
+         }
+         
+         return (rating/size).toFixed(1) // 소수점 2번째 자리에서 반올림
+      },
+
+      getSafetyPoint() {
+         if(this.sendData.code === undefined) {return}
+         this.getSafety();
+         return this.safety
       },
    },
 };
