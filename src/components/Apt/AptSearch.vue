@@ -5,7 +5,7 @@
             <b-button squared variant="outline-primary" @click="callMapType('normal')" style="font-size:5pt; width:70px; margin-right:6px">보통지도</b-button>
             <b-button squared variant="outline-primary" @click="callMapType('hybrid')" style="font-size:5pt; width:70px; margin-right:6px">스카이뷰</b-button>
             <b-button squared variant="outline-primary" @click="callMapType('terrain')" style="font-size:5pt; width:70px; margin-right:6px">지형정보</b-button>
-            <b-button squared variant="outline-primary" @click="callMapType('use_district')" style="font-size:5pt; width:70px;">지적편집도</b-button>
+            <b-button squared variant="outline-primary" @click="callMapType('use_district')" style="font-size:5pt; width:85px;">지적편집도</b-button>
          </div>
          <input type="text" placeholder="아파트명을 입력하세요" name="search" v-model="aptName" @keyup.enter="searchAptName" />
          <i v-show="isShow" class="fas fa-times close-icon" @click="clear"></i>
@@ -116,8 +116,12 @@ export default {
 }
 
 .searchInput {
-   width: 300px;
+   width: 350px;
    /* height: 100px; */
+}
+
+.mapType-wrappter {
+   padding: 2%;
 }
 
 .AptSearch input[type='text'] {
