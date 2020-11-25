@@ -3,13 +3,15 @@
     <div class="infolist">
       <h3>뉴스</h3>
       <!-- member권한 v-if문 추가하기 -->
-      <button class="addBtn btn-right btn-bottom" type="button" @click="gotoAddNews">
+      <button v-if="userInfo != null && userInfo.auth==2" class="addBtn btn-right btn-bottom" type="button" @click="gotoAddNews">
         뉴스 추가하기
       </button>
       <hr class="hr-main">
       <div v-for="(news, index) in newsList" :key="index">
         <p>
+          <span class="agency">{{news.agency}}</span>
           <a :href="news.link" target="_blank">{{ news.title }}</a>
+          <span class="date">{{news.registerDate}}</span>
         </p>
         <hr>
       </div>
@@ -19,6 +21,7 @@
 <script>
 import axios from 'axios'
 import router from '../router/router'
+import {mapState} from 'vuex'
 
 export default {
   data() {
@@ -50,6 +53,9 @@ export default {
         scrollTop() {
           window.scrollTo(0, top)
         }
+    },
+    computed: {
+      ...mapState(['userInfo']),
     },
 };
 </script>
@@ -102,5 +108,9 @@ input[type='checkbox'] {
 
 .btn-bottom {
     margin-bottom: 1%;
+}
+
+.agency {
+  font-size: 12px;
 }
 </style>

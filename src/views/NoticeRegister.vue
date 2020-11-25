@@ -24,6 +24,7 @@
 <script>
 import axios from 'axios';
 import router from '../router/router';
+import { mapState } from 'vuex';
 
 export default {
    data() {
@@ -48,6 +49,7 @@ export default {
             .post('http://localhost/happyhouse/notices', {
                title: this.title,
                content: this.content,
+               writerId: this.userInfo.id,
             })
             .then(() => {
                alert('공지사항이 추가되었습니다');
@@ -63,6 +65,9 @@ export default {
          this.title = '';
          this.content = '';
       },
+   },
+   computed: {
+      ...mapState(['userInfo']),
    },
 };
 </script>
