@@ -18,8 +18,8 @@
          </p>
          <p class="info-row">
             <span class="r-title"> <i class="fas fa-shoe-prints"></i> 편세권 </span>
-            <span v-if="sendInflu > 10" class="score" style="color:green">최고</span>
-            <span v-else-if="sendInflu > 5" class="score" style="color:orange">쏘쏘</span>
+            <span v-if="sendInflu >= 7" class="score" style="color:green">최고</span>
+            <span v-else-if="sendInflu >= 4" class="score" style="color:orange">쏘쏘</span>
             <span v-else class="score" style="color:red">별로</span>
             <span class="content">{{ sendInflu }}개의 편의점이 300M 안에 있어요 </span>
          </p>
