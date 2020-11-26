@@ -57,7 +57,7 @@ export default {
          }
 
          axios
-            .get('http://localhost/happyhouse/house/search/apt/' + this.aptName)
+            .get('http://localhost/house/search/apt/' + this.aptName)
             .then((response) => {
                (this.loading = false), (this.aptList = response.data);
                this.selectedBox = true;

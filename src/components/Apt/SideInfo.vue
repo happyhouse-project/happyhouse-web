@@ -4,11 +4,11 @@
       <b-card :title="getAptName" :img-src="getImage" img-alt="Image" img-top tag="article" style="max-width: 20rem;" class="mb-2">
          <b-card-text class="card-wrapper">
             <b-button size="sm" pill variant="outline-secondary" disabled="disabled" style="font-size:8pt;"> {{ sendData.dong }}&nbsp;{{ sendData.jibun }} </b-button>
-            <b-button size="sm" pill variant="outline-secondary" disabled="disabled" style="margin-left:4px; font-size:8pt">
+            <b-button size="sm" pill variant="outline-secondary" disabled="disabled" style="margin-left:3px; font-size:8pt">
                {{ sendData.buildYear }}
             </b-button>
-            <b-button size="sm" pill variant="outline-success" style="font-size:8pt; font-weight:600; margin-left:4px;"> 안전지수 {{ getSafetyPoint }} </b-button>
-            <b-button size="sm" pill variant="outline-primary" style="font-size:8pt; font-weight:600; margin-left:4px;"> 평점 {{ getAvgRating }} </b-button>
+            <b-button size="sm" pill variant="outline-success" style="font-size:8pt; font-weight:600; margin-left:3px;"> 안전지수 {{ getSafetyPoint }} </b-button>
+            <b-button size="sm" pill variant="outline-primary" style="font-size:8pt; font-weight:600; margin-left:3px;"> 평점 {{ getAvgRating }} </b-button>
             <hr />
             <b>거래 내역</b><br />
             <div class="dealTable">
@@ -115,7 +115,7 @@ export default {
       },
       registerReview() {
          axios
-            .post('http://localhost/happyhouse/reviews', {
+            .post('http://localhost/reviews', {
                content: this.content,
                rating: this.rating,
                houseNo: this.sendData.no,
@@ -149,7 +149,7 @@ export default {
       },
       getSafety() {
          axios
-            .get('http://localhost/happyhouse/safety/' + this.sendData.code)
+            .get('http://localhost/safety/' + this.sendData.code)
             .then((response) => {
                this.safety = response.data.safety;
             })
@@ -170,7 +170,7 @@ export default {
          if (this.sendData.img == undefined) {
             return;
          }
-         return 'http://localhost/happyhouse/static/images/apt/' + this.sendData.img + '.jpg';
+         return 'http://localhost/images/apt/' + this.sendData.img + '.jpg';
       },
       getDealTable() {
          var arr = this.sendData.deals;

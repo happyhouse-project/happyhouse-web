@@ -37,7 +37,7 @@ export default {
    methods: {
       getNews() {
          axios
-            .get('http://localhost/happyhouse/news')
+            .get('http://localhost/news')
             .then((response) => {
                (this.loading = false), (this.newsList = response.data);
             })
@@ -70,7 +70,6 @@ h3 {
    padding-left: 15%;
    padding-right: 15%;
    padding-bottom: 20%;
-   overflow-y: auto;
    font-family: 'Do Hyeon' !important;
    font-size: 14pt;
 }

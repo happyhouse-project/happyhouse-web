@@ -41,7 +41,7 @@ export default {
    methods: {
       getNotice() {
          axios
-            .get('http://localhost/happyhouse/notices/' + this.$route.params.id)
+            .get('http://localhost/notices/' + this.$route.params.id)
             .then((response) => {
                (this.loading = false), (this.notice = response.data);
                console.log(this.notice);
@@ -53,7 +53,7 @@ export default {
       },
       remove(id) {
          axios
-            .delete('http://localhost/happyhouse/notices/' + id)
+            .delete('http://localhost/notices/' + id)
             .then(() => {
                alert('삭제에 성공했습니다');
                router.push({ name: 'Notice' });

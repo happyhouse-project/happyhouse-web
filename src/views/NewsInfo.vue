@@ -63,7 +63,7 @@ export default {
    methods: {
       getEndPage() {
          axios
-            .get('http://localhost/happyhouse/news/crawling/endPage')
+            .get('http://localhost/news/crawling/endPage')
             .then((response) => {
                this.endPage = response.data;
             })
@@ -74,7 +74,7 @@ export default {
       },
       getNews() {
          axios
-            .get('http://localhost/happyhouse/news/crawling/' + this.page)
+            .get('http://localhost/news/crawling/' + this.page)
             .then((response) => {
                this.loading = false;
                this.newsList = response.data;
@@ -86,7 +86,7 @@ export default {
       },
       addNews() {
          axios
-            .post('http://localhost/happyhouse/news/', JSON.stringify(this.checkNews), { headers: { 'Content-Type': 'application/json' } })
+            .post('http://localhost/news/', JSON.stringify(this.checkNews), { headers: { 'Content-Type': 'application/json' } })
             .then(() => {
                alert('뉴스에 추가되었습니다');
                router.push({ name: 'News' });

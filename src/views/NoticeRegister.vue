@@ -46,7 +46,7 @@ export default {
          }
 
          axios
-            .post('http://localhost/happyhouse/notices', {
+            .post('http://localhost/notices', {
                title: this.title,
                content: this.content,
                writerId: this.userInfo.id,
