@@ -67,7 +67,7 @@ export default {
    methods: {
       doRegister() {
          axios
-            .post('http://localhost/happyhouse/members', {
+            .post('http://localhost/members', {
                email: this.email,
                password: this.password,
                name: this.name,

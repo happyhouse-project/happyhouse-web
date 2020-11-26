@@ -29,7 +29,7 @@ export default {
    methods: {
       getHomeNews() {
          axios
-            .get('http://localhost/happyhouse/news/main')
+            .get('http://localhost/news/main')
             .then((response) => {
                (this.loading = false), (this.newsList = response.data);
             })

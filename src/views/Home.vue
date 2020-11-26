@@ -4,8 +4,8 @@
          <!--1. carousel 들어가는 div -->
          <div class="carousel-wrapper">
             <b-carousel id="carousel-fade" style="text-shadow: 0px 0px 2px #000" fade indicators img-width="1410" img-height="400">
-               <b-carousel-slide img-src="http://localhost/happyhouse/static/images/main/slide-1.png"></b-carousel-slide>
-               <b-carousel-slide img-src="http://localhost/happyhouse/static/images/main/slide-2.png"></b-carousel-slide>
+               <b-carousel-slide img-src="http://localhost/images/main/slide-1.png"></b-carousel-slide>
+               <b-carousel-slide img-src="http://localhost/images/main/slide-2.png"></b-carousel-slide>
             </b-carousel>
          </div>
          <home-search></home-search>
@@ -15,7 +15,7 @@
                   <div class="intro">
                      <span class="title"><i class="fas fa-comments"></i> 소개합니다</span>
                      <hr />
-                     <img class="intro-img" alt="intro image" src="http://localhost/happyhouse/static/images/main/about.png" />
+                     <img class="intro-img" alt="intro image" src="@/assets/images/main/about.png" />
                   </div>
                </div>
                <div class="col">
@@ -61,8 +61,7 @@ body {
 }
 
 .main {
-   height: 100vh;
-   overflow-y: auto;
+   height: 110vh;
    padding-bottom: 20%;
 }
 

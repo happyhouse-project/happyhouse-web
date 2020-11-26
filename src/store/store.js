@@ -39,7 +39,7 @@ export default new Vuex.Store({
     // 로그인 시도
     doLogin({ dispatch }, loginObj) {
       // 전체 유저에서 해당 이메일로 유저를 찾는다.
-      axios.post("http://localhost/happyhouse/login", loginObj)
+      axios.post("http://localhost/login", loginObj)
         .then(res => {
           alert("로그인에 성공했습니다.")
           // alert(res.data.accessToken)
@@ -82,7 +82,7 @@ export default new Vuex.Store({
         };
 
         axios
-          .post("http://localhost/happyhouse/loginUser", bodyParameters, config)
+          .post("http://localhost/loginUser", bodyParameters, config)
           .then(response => {
               let userInfo = {
                 id: response.data.id,

@@ -30,7 +30,7 @@ export default {
    methods: {
       getNotices() {
          axios
-            .get('http://localhost/happyhouse/notices')
+            .get('http://localhost/notices')
             .then((response) => {
                (this.loading = false), (this.noticeList = response.data);
             })

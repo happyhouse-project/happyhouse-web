@@ -123,7 +123,7 @@ export default {
 
          if (event == 'titlesloaded' || event == 'zoom_changed') {
             axios
-               .post('http://localhost/happyhouse/house/aptDragSearch', latlng)
+               .post('http://localhost/house/aptDragSearch', latlng)
                .then((response) => {
                   this.aptList = response.data;
                   this.setInfoMarker();
@@ -136,7 +136,7 @@ export default {
       },
 
       setInfoMarker() {
-         var imageSrc = 'http://localhost/happyhouse/static/images/marker.png', // 마커이미지의 주소입니다
+         var imageSrc = 'http://localhost/images/marker.png', // 마커이미지의 주소입니다
             imageSize = new kakao.maps.Size(40, 45), // 마커이미지의 크기입니다
             imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
@@ -211,7 +211,7 @@ export default {
 
       getAptDetail(no) {
          axios
-            .get('http://localhost/happyhouse/house/' + no)
+            .get('http://localhost/house/' + no)
             .then((response) => {
                console.log(response.data);
                this.aptInfo = response.data;
@@ -281,7 +281,7 @@ export default {
 
       getReviews(no) {
          axios
-            .get('http://localhost/happyhouse/reviews/' + no)
+            .get('http://localhost/reviews/' + no)
             .then((response) => {
                //this.loading = false
                this.reviews = response.data;
@@ -409,7 +409,7 @@ export default {
             num = 3;
             color = '#33ACD4';
          }
-         var imageSrc = `http://localhost/happyhouse/static/images/apiMarker-${num}.png`;
+         var imageSrc = `http://localhost/images/apiMarker-${num}.png`;
 
          // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);

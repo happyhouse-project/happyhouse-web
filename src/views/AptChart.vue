@@ -16,7 +16,7 @@
                <ul>
                   <li class="line dudb zmfflr" v-for="(apt, index) in aptList" :key="index" @click="searchApt(apt.no)">
                      <div class="rank">{{ index + 1 }}</div>
-                     <div class="apt-img"><img v-bind:src="'http://localhost/happyhouse/static/images/apt/' + apt.img + '.jpg'" alt="AptImage" width="60px" height="60px" /></div>
+                     <div class="apt-img"><img v-bind:src="'http://localhost/images/apt/' + apt.img + '.jpg'" alt="AptImage" width="60px" height="60px" /></div>
                      <div class="apt-name">{{ apt.aptName }}</div>
                      <div class="hit">{{ apt.hit }}</div>
                   </li>
@@ -48,7 +48,7 @@ export default {
    methods: {
       getChart() {
          axios
-            .get('http://localhost/happyhouse/house/charts')
+            .get('http://localhost/house/charts')
             .then((response) => {
                (this.loading = false), (this.aptList = response.data);
             })
@@ -100,7 +100,6 @@ h3 {
    padding-left: 15%;
    padding-right: 15%;
    padding-bottom: 20%;
-   overflow-y: auto;
    font-family: 'Do Hyeon' !important;
    font-size: 14pt;
 }

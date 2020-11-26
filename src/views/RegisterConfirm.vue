@@ -13,10 +13,10 @@ export default {
         // 이메일 인증        
         checkEmailAuth() {
             alert('gogo')
-          axios.get("http://localhost/happyhouse/members/registerConfirm?email=" + this.$route.query.email
+          axios.get("http://localhost/members/registerConfirm?email=" + this.$route.query.email
           + "&authKey=" + this.$route.query.authKey
           )
-          .then(res => {            
+          .then(res => {
             if(res.status === 201) {
               alert("회원가입이 완료되었습니다.")
             }

@@ -1,7 +1,7 @@
 <template>
    <div class="search">
       <div class="searchInput shadow-lg bg-white">
-         <input type="text" placeholder="원하시는 아파트명, 주택명을 입력해주세요" name="search" v-model="keyword" @keyup.enter="searchAptKeyword" />
+         <input type="text" placeholder="원하시는 아파트명을 입력해주세요" name="search" v-model="keyword" @keyup.enter="searchAptKeyword" />
          <i v-show="isShow" class="fas fa-times close-icon" @click="clear"></i>
          <button type="button" @click="searchAptKeyword">
             <i class="fa fa-search"></i>
@@ -42,7 +42,7 @@ export default {
          }
 
          axios
-            .get('http://localhost/happyhouse/house/search/apt/' + this.keyword)
+            .get('http://localhost/house/search/apt/' + this.keyword)
             .then((response) => {
                (this.loading = false), (this.aptList = response.data);
                // console.log(this.aptList);

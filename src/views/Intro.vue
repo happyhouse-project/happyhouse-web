@@ -23,7 +23,7 @@
                 <div class="intro-person">
                     <span class="person">김한솔</span>
                     <div class="person-detail">
-                        <span class="person">010-3920-7847</span><br>
+                        <span class="person">010-1234-1234</span><br>
                         <span class="person">https://github.com/mentalK94</span><br>
                         <span class="person">doingnow94@gmail.com</span><br>
                     </div>
@@ -33,7 +33,7 @@
                 <div class="intro-person">
                     <span class="person">이주상</span>
                     <div class="person-detail">
-                        <span class="person">010-3461-5030</span><br>
+                        <span class="person">010-1234-1234</span><br>
                         <span class="person">https://github.com/stateaward</span><br>
                         <span class="person">stateaward@naver.com</span><br>
                     </div>
