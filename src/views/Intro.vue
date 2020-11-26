@@ -10,27 +10,31 @@
                더 이상 여기저기 찾지말고 이곳에서 내집을 마련해보세요.<br />
                <span class="blue-point">내집마련 걱정 끝!</span>
             </div>
+            <div class="reference-intro">
+               <img src="@/assets/images/logos/ssafy_logo.png" alt="logo" style="width:10%" />
+               본 회사는 <b>SSAFY</b>와 함께합니다
+            </div>
          </div>
-         <div class="contact">
-            <div class="header"><span class="contact-content">contact</span></div>
-            <div class="west">
-               <div class="intro-person">
-                  <span class="person">김한솔</span>
-                  <div class="person-detail">
-                     <span class="person">010-1234-1234</span><br />
-                     <span class="person">https://github.com/mentalK94</span><br />
-                     <span class="person">doingnow94@gmail.com</span><br />
-                  </div>
+      </div>
+      <div class="contact">
+         <div class="header"><span class="contact-content">contact</span></div>
+         <div class="west">
+            <div class="intro-person">
+               <span class="person">김한솔</span>
+               <div class="person-detail">
+                  <span class="person">010-1234-1234</span><br />
+                  <span class="person">https://github.com/mentalK94</span><br />
+                  <span class="person">doingnow94@gmail.com</span><br />
                </div>
             </div>
-            <div class="east">
-               <div class="intro-person">
-                  <span class="person">이주상</span>
-                  <div class="person-detail">
-                     <span class="person">010-1234-1234</span><br />
-                     <span class="person">https://github.com/stateaward</span><br />
-                     <span class="person">stateaward@naver.com</span><br />
-                  </div>
+         </div>
+         <div class="east">
+            <div class="intro-person">
+               <span class="person">이주상</span>
+               <div class="person-detail">
+                  <span class="person">010-1234-1234</span><br />
+                  <span class="person">https://github.com/stateaward</span><br />
+                  <span class="person">stateaward@naver.com</span><br />
                </div>
             </div>
          </div>
